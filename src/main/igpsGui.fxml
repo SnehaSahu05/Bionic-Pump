@@ -102,8 +102,8 @@
                                 <items>
                                   <AnchorPane fx:id="apMsg" minHeight="0.0" minWidth="0.0" prefHeight="286.0" prefWidth="309.0">
                                        <children>
-                                          <TextArea fx:id="txtMsgBox" layoutX="13.0" layoutY="41.0" prefHeight="142.0" prefWidth="271.0" text="Simulator Message" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="41.0" />
-                                          <Label contentDisplay="CENTER" layoutX="100.0" layoutY="10.0" prefHeight="27.0" prefWidth="97.0" text="Message Box" AnchorPane.bottomAnchor="159.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="101.0" AnchorPane.topAnchor="10.0">
+                                          <ListView fx:id="listMsgBox" editable="true" layoutX="9.0" layoutY="41.0" prefHeight="146.0" prefWidth="275.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="41.0" />
+                                          <Label contentDisplay="CENTER" layoutX="100.0" layoutY="10.0" prefHeight="27.0" prefWidth="97.0" text="Message Box" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0">
                                              <font>
                                                 <Font name="System Bold" size="15.0" />
                                              </font>
@@ -118,12 +118,16 @@
                                               <MenuItem fx:id="menuItmMeal" mnemonicParsing="false" text="Proceed for a meal" />
                                             </items>
                                           </MenuButton>
-                                          <CheckBox fx:id="chkBoxCoke" layoutX="18.0" layoutY="69.0" mnemonicParsing="false" onAction="#setCarbsValue" text="Coke (12)" />
-                                          <CheckBox fx:id="chkBox2" layoutX="18.0" layoutY="102.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal (5)" />
-                                          <CheckBox fx:id="chkBox3" layoutX="18.0" layoutY="134.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal (20)" />
-                                          <CheckBox fx:id="chkBox3" layoutX="18.0" layoutY="167.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal ( )" />
-                                          <CheckBox fx:id="chkBox3" layoutX="18.0" layoutY="201.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal ( )" />
-                                          <Button fx:id="btnConsume" layoutX="170.0" layoutY="233.0" mnemonicParsing="false" onAction="#consumedMeal" prefHeight="39.0" prefWidth="111.0" text="Consume" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="15.0" />
+                                          <Group fx:id="grpMeal">
+                                             <children>
+                                                <CheckBox fx:id="chkBox2" layoutX="18.0" layoutY="102.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal (5)" />
+                                                <CheckBox fx:id="chkBox3" layoutX="18.0" layoutY="167.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal ( )" />
+                                                <CheckBox fx:id="chkBox3" layoutX="18.0" layoutY="134.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal (20)" />
+                                                <CheckBox fx:id="chkBox3" layoutX="18.0" layoutY="201.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal ( )" />
+                                                <Button fx:id="btnConsume" layoutX="170.0" layoutY="233.0" mnemonicParsing="false" onAction="#consumedMeal" prefHeight="39.0" prefWidth="111.0" text="Consume" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="15.0" />
+                                                <CheckBox fx:id="chkBoxCoke" layoutX="18.0" layoutY="69.0" mnemonicParsing="false" onAction="#setCarbsValue" text="Coke (12)" />
+                                             </children>
+                                          </Group>
                                        </children>
                                     </AnchorPane>
                                 </items>
@@ -180,7 +184,7 @@
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Text layoutX="947.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%">
+      <Text layoutX="947.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%" AnchorPane.rightAnchor="50.859375" AnchorPane.topAnchor="45.892578125">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

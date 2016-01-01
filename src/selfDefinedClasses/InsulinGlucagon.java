@@ -1,16 +1,16 @@
 package selfDefinedClasses;
 
 public class InsulinGlucagon {
-	public void CalculateInsulinBolus(int newBSL){
+	public void calculateInsulinBolus(int newBSL){
 		newBSL=1;
 		// just to write
 	}
 	
-	public void CalculateInsulinBasal(int newBSL){
+	public void calculateInsulinBasal(int newBSL){
 		
 	}
 
-	public void CalculateGlucagon(int newBSL){
+	public void calculateGlucagon(int newBSL){
 		
 	}
 

@@ -22,7 +22,7 @@ public class DisplayToControllerMediator extends TimerTask {
 
 	}
 
-	public void startScheduling(Timer timer) {
+	public void startSimulator(Timer timer) {
 		timer.scheduleAtFixedRate(controller.DisplayToControllerMediator.getInstance(), delay,
 				period);
 
