@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.Timer;
 
+import controller.Clock.LoadingSetTimeListener;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,10 +32,10 @@ import javafx.scene.text.Text;
 //import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class IgpsGuiController implements Initializable {
+public class IgpsGuiController implements Initializable, LoadingSetTimeListener {
 
 	@FXML
-	private static Text txtTimer;
+	private Text txtTimer;
 
 	@FXML
 	private ScrollBar tabScroll;
@@ -167,8 +168,9 @@ public class IgpsGuiController implements Initializable {
 		// i/* Clock.getcurrentTime() */, (Double)
 		// accesorystatuses.get("glucoselevel")));
 
+		setTime("Hello");
 		// set series name
-		timerClock = new Clock();
+		timerClock = new Clock(this);
 		timerClock.startClock();
 
 		series.setName("Blood Glucose Graph");
@@ -232,8 +234,11 @@ public class IgpsGuiController implements Initializable {
 
 	}
 
-	public static void setClock(String currentTime) {
-
+	/* (non-Javadoc)
+	 * @see controller.Clock.LoadingSetTimeListener#setTime(java.lang.String)
+	 */
+	@Override
+	public void setTime(String currentTime) {
 		txtTimer.setText(currentTime);
 
 	}

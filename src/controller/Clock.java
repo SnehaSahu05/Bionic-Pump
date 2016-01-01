@@ -8,14 +8,18 @@ import org.joda.time.DateTime;
 
 public class Clock {
 
-	private static long delay = 1000;
+	public interface LoadingSetTimeListener {
+		void setTime(String currentTime);
+	}
+	private static long delay = 1;
 	private static long period = 1000;
 	private DateTime creationDate;
 	GregorianCalendar cal = new GregorianCalendar();
 	private String formattedDate;
+	private final LoadingSetTimeListener callClasslistener;
 
-	public Clock() {
-
+	public Clock(LoadingSetTimeListener listener) {
+		this.callClasslistener = listener;
 	}
 
 	public void startClock() {
@@ -26,14 +30,16 @@ public class Clock {
 
 			@Override
 			public synchronized void run() {
+				cal = new GregorianCalendar();
 				creationDate = new DateTime(cal.getTimeInMillis());
 				formattedDate = creationDate.toString("HH:mm:ss");
-				IgpsGuiController.setClock(formattedDate);
+				//IgpsGuiController.setClock(formattedDate);
+				callClasslistener.setTime(formattedDate);
 				creationDate = null;
 
 			}
 
-		}, delay);
+		}, delay,period);
 
 	}
 
