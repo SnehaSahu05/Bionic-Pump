@@ -261,6 +261,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	public void onWorkOut(ActionEvent event) {
 		menuBtn.setText("Go for Workout");
 		btnConsume.setText("Go");
+		grpMeal.setDisable(true);
 		btnConsume.setDisable(false);
 		btnCancel.setDisable(false);
 	}
@@ -269,7 +270,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	public void onMealSelected(ActionEvent event) {
 		menuBtn.setText("Proceed for a meal");
 		grpMeal.setDisable(false);
-
+		btnConsume.setText("Consume");
 		btnConsume.setDisable(false);
 		btnCancel.setDisable(false);
 
@@ -290,10 +291,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			PrimeController.injectGlucagon(glucagon);
 			addMessage(String.format("%s glucagon dose has been injected.", glucagon), Color.GREEN);
 		}
-		
 		carbs = 0;
-
-
 	}
 
 	@FXML
@@ -305,7 +303,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			addMessage("You lose carbohydrates by 10 units", Color.GREEN);
 		} else {
 			ObservableList<Node> children = grpMeal.getChildren();
-			for (Iterator iter = children.iterator(); iter.hasNext();) {
+			for (Iterator<Node> iter = children.iterator(); iter.hasNext();) {
 				Object obj = iter.next();
 				if (obj instanceof CheckBox) {
 					if (((CheckBox) obj).selectedProperty().getValue()) {
