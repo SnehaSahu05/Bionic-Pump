@@ -2,7 +2,9 @@ package assembly;
 
 public class BloodGlucoseSensor {
 	private static BloodGlucoseSensor BGSensorInstance = null;
-	private int bloodglucose = AssemblyConstants.NINETY;
+
+	private int bloodglucose = AssemblyConstants.RANGE_ONE_MIN;
+
 
 	public BloodGlucoseSensor() {
 
@@ -50,5 +52,17 @@ public class BloodGlucoseSensor {
 		return BGSensorInstance;
 
 	}
+
+	public void chnageBGLOnGlucagonInjection(double glucagon) {
+		bloodglucose = 90;
+		
+	}
+
+	public void changeBGLOnIdle() {
+		bloodglucose -= 2;
+
+	}
+
+
 
 }

@@ -21,7 +21,7 @@
                            <children>
                               <LineChart fx:id="linePlotBSL" layoutX="24.0" layoutY="179.0" prefHeight="345.0" prefWidth="645.0" title="Blood Sugar Levels at regular Time-Intervals" AnchorPane.bottomAnchor="-15.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="27.0">
                                 <xAxis>
-                                  <NumberAxis fx:id="linePlotBSLxAxis" label="(in sec)" prefHeight="46.0" prefWidth="544.0" />
+                                  <CategoryAxis fx:id="linePlotBSLxAxis" prefHeight="46.0" prefWidth="544.0" tickLabelRotation="75.0" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis fx:id="linePlotBSLyAxis" label="Sugar Level (in mg/dl)" prefHeight="187.0" prefWidth="71.0" side="LEFT" tickLabelGap="5.0" upperBound="200.0" />

@@ -16,7 +16,7 @@ public class DisplayToControllerMediator extends TimerTask {
 	private static int period = 5000;
 	private int i = 0;
 	private DisplayControllable displayControllerInterface;
-	
+		
 	public DisplayToControllerMediator(DisplayControllable controllable){
 		displayControllerInterface = controllable;
 	}

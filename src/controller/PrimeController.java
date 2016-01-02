@@ -37,7 +37,7 @@ public class PrimeController {
 
 		// Step 2. Compute dose based on blood glucose level
 
-		calculatedinsulindose = InsulinGlucagon.calculateInsulinBasal(bgLevel);
+		calculatedinsulindose = InsulinGlucagon.calculateInsulinBolus(bgLevel);
 
 		// Step 3. Inject Insulin and change the blood glucose level on this
 		// injection
@@ -72,9 +72,19 @@ public class PrimeController {
 		PrimeController.currentbolus = currentbolus;
 	}
 
-	public static void injectBolus() {
+	public static void injectBolus(double insulin) {
 
-		BloodGlucoseSensor.getInstance().bloodchangeBolus();
+		BloodGlucoseSensor.getInstance().bloodGlucoseChangeOnBasalActivity(insulin);
 
+	}
+
+	public static void injectGlucagon(double glucagon) {
+		BloodGlucoseSensor.getInstance().chnageBGLOnGlucagonInjection(glucagon);
+		
+	}
+
+	public static void changeBGLOnIdle() {
+		BloodGlucoseSensor.getInstance().changeBGLOnIdle();
+		
 	}
 }

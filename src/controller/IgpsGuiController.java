@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import com.sun.org.apache.bcel.internal.generic.Select;
 
@@ -27,6 +28,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -46,12 +48,14 @@ import javafx.scene.control.TextField;
 //import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 //import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import selfDefinedClasses.InsulinGlucagon;
 
 public class IgpsGuiController implements Initializable, LoadingSetTimeListener, DisplayControllable {
 
@@ -86,7 +90,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	private Button btnBattery;
 
 	@FXML
-	private NumberAxis linePlotBSLxAxis;
+	private CategoryAxis linePlotBSLxAxis;
 
 	@FXML
 	private MenuItem menuItmMeal;
@@ -146,7 +150,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	private Button btnInsulin;
 
 	@FXML
-	private LineChart<Number, Number> linePlotBSL;
+	private LineChart<CategoryAxis, Number> linePlotBSL;
 
 	@FXML
 	private Text txtBatteryLevel;
@@ -184,23 +188,21 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 	private static int i = 0;
 
-	private static Series<Number, Number> series = new XYChart.Series<Number, Number>();
+	private static Series<CategoryAxis, Number> series = new XYChart.Series<CategoryAxis, Number>();
 	private int previousBGL;
+	final static AudioClip alert =
+
+	new AudioClip(IgpsGuiController.class.getResource("alertvibrate.mp3").toString());
+
+	public static boolean isMealConsumed = false;
+
+	private int carbs = 0;
+
+	private Timer rangeTimerOnMealConsumed = new Timer();
 
 	@Override
 	public void initialize(URL path, ResourceBundle resource) {
 
-		/*
-		 * Implementing the Initializable interface means that this method will
-		 * be called when the controller instance is created
-		 */
-
-		// Initialise the line chart with the series of data
-		// series.getData().add(new XYChart.Data<Number, Number>(
-		// i/* Clock.getcurrentTime() */, (Double)
-		// accesorystatuses.get("glucoselevel")));
-
-		// set series name
 		timerClock = new Clock(this);
 		timerClock.startClock();
 
@@ -220,6 +222,8 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		grpMeal.setDisable(true);
 		btnConsume.setDisable(true);
 		btnCancel.setDisable(true);
+		linePlotBSLxAxis.setAutoRanging(true);
+
 		// apPatientInfo.disableProperty();
 
 		// Add Carbs to Map variable (carbsValue) list
@@ -267,8 +271,31 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	public void onMealSelected(ActionEvent event) {
 		menuBtn.setText("Proceed for a meal");
 		grpMeal.setDisable(false);
+
 		btnConsume.setDisable(false);
 		btnCancel.setDisable(false);
+
+
+		// check bgl
+		int currentGlucoseLevel = BloodGlucoseSensor.getInstance().checkBloodGlucose();
+		// inject insulin if bgl is greater than R1 Max
+		if (currentGlucoseLevel > AssemblyConstants.RANGE_ONE_MAX) {
+			addMessage("Blood glucose level is too high", Color.RED);
+			double calculatedInsulin = InsulinGlucagon.calculateInsulinBolus(currentGlucoseLevel);
+			PrimeController.injectBolus(calculatedInsulin);
+			addMessage(String.format("%s insulin dose has been injected.", calculatedInsulin), Color.GREEN);
+		}
+		// inject glucagon if bgl is lesser than R1 Min
+		else if (currentGlucoseLevel < AssemblyConstants.RANGE_ONE_MIN) {
+			addMessage("Blood glucose level is low", Color.RED);
+			double glucagon = InsulinGlucagon.calculateGlucagon(currentGlucoseLevel);
+			PrimeController.injectGlucagon(glucagon);
+			addMessage(String.format("%s glucagon dose has been injected.", glucagon), Color.GREEN);
+		}
+		
+		carbs = 0;
+
+
 	}
 
 	@FXML
@@ -294,10 +321,28 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		btnConsume.setDisable(true);
 		btnCancel.setDisable(true);
 		menuBtn.setText("Select Activity");
+
 		BloodGlucoseSensor.getInstance().bglChangeOnActivity(carbs);
 		clearCheckBox();
 		carbs = 0;
-	}
+
+		if (isMealConsumed) {
+			rangeTimerOnMealConsumed.cancel();
+			rangeTimerOnMealConsumed = new Timer();
+		}
+
+		rangeTimerOnMealConsumed.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				isMealConsumed = false;
+				rangeTimerOnMealConsumed.cancel();
+
+			}
+		}, 60000, 1000);
+
+		isMealConsumed = true;
+}
 
 	@FXML
 	void cancelActivity(ActionEvent event) {
@@ -343,27 +388,40 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 			@Override
 			public void run() {
-				series.getData().add(new XYChart.Data<Number, Number>(i, (Integer) parameters.get("glucoselevel")));
+				int currentBGL = (Integer) parameters.get("glucoselevel");
+				checkForBGLWarnings(false, currentBGL);
+				// series.getData().add(new XYChart.Data<CategoryAxis,
+				// Number>("", currentBGL));
+				series.getData().add(new XYChart.Data(txtTimer.getText(), currentBGL));
 				progressBattery.setProgress((double) parameters.get("batterylevel"));
+
 				progressInsulinBank.setProgress((double) parameters.get("insulinlevel"));
+
 				txtNewBSL.setText(String.valueOf(parameters.get("glucoselevel")));
 				txtPrevBSL.setText(String.valueOf(previousBGL));
 				previousBGL = (int) parameters.get("glucoselevel");
 				// setting display
 				Double batteryLevel = ((Double) parameters.get("batterylevel")) * AssemblyConstants.HUNDRED;
 				txtBatteryLevel.setText(String.valueOf(batteryLevel.intValue()));
-
+				if (i != 0 && i % 6 == 0) {
+					PrimeController.changeBGLOnIdle();
+				}
 				i++;
 				if (i > 13) {
 					series.getData().remove(0);
-					linePlotBSLxAxis.setLowerBound(linePlotBSLxAxis.getLowerBound() + 1);
-					linePlotBSLyAxis.setUpperBound(linePlotBSLxAxis.getUpperBound() + 1);
+
+					// linePlotBSLxAxis.setLowerBound(linePlotBSLxAxis.getLowerBound()
+					// + 1);
+					// linePlotBSLyAxis.setUpperBound(linePlotBSLxAxis.getUpperBound()
+					// + 1);
 
 				}
 			}
+
 		});
 
 	}
+
 
 	// for Popup menu.
 	public static void infoBox(String infoMessage, String titleBar, String headerMessage) {
@@ -414,6 +472,73 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			mediator.startSimulator(timer);
 		}
 
+
+	private void checkForBGLWarnings(boolean isMealTimerFinished, int glucoseLevel) {
+		Color color = null;
+		String message = null;
+		if (!isMealConsumed) {
+
+			if (glucoseLevel > AssemblyConstants.RANGE_ONE_MAX) {
+				color = Color.RED;
+				message = "Blood glucose is high";
+				setAlarm(true);
+			} else if (glucoseLevel < AssemblyConstants.RANGE_ONE_MIN) {
+				color = Color.RED;
+				message = "Blood glucose is low";
+				setAlarm(true);
+			} else if (isBGLInWarningLevel(glucoseLevel, AssemblyConstants.RANGE_ONE_MIN, AssemblyConstants.EIGHTY)) {
+				color = Color.YELLOW;
+				message = "Blood glucose is lowering";
+
+			} else if (isBGLInWarningLevel(glucoseLevel, AssemblyConstants.ONE_HUNDRED_TEN,
+					AssemblyConstants.RANGE_ONE_MAX)) {
+				color = Color.YELLOW;
+				message = "Blood glucose is increasing";
+
+			} else {
+				color = Color.GREEN;
+				message = "Blood glucose is normal.";
+			}
+			if (!msgBoxItems.get(0).getText().equals(message)) {
+				addMessage(message, color);
+			}
+
+		} else {
+
+			if (glucoseLevel > AssemblyConstants.RANGE_TWO_MAX) {
+				color = Color.RED;
+				message = "Blood glucose is high";
+				setAlarm(true);
+			} else if (glucoseLevel < AssemblyConstants.RANGE_ONE_MIN) {
+				color = Color.RED;
+				message = "Blood glucose is low";
+				setAlarm(true);
+			} else if (isBGLInWarningLevel(glucoseLevel, AssemblyConstants.RANGE_ONE_MIN, AssemblyConstants.EIGHTY)) {
+				color = Color.YELLOW;
+				message = "Blood glucose is lowering";
+
+			} else if (isBGLInWarningLevel(glucoseLevel, AssemblyConstants.HUNDRED_NINGHTY,
+					AssemblyConstants.RANGE_TWO_MAX)) {
+				color = Color.YELLOW;
+				message = "Blood glucose is increasing";
+
+			} else {
+				color = Color.GREEN;
+				message = "Blood glucose is normal.";
+
+			}
+			if (!msgBoxItems.get(0).getText().equals(message)) {
+				addMessage(message, color);
+			}
+
+		}
+	}
+
+	private boolean isBGLInWarningLevel(int glucoseLevel, int lowerBound, int higherBound) {
+		if (glucoseLevel > lowerBound && glucoseLevel < higherBound)
+			return true;
+		return false;
+
 	}
 
 	/*
@@ -426,5 +551,18 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		txtTimer.setText(currentTime);
 
 	}
+
+
+	private static void setAlarm(boolean isplay) {
+		if (isplay) {
+			if (!alert.isPlaying())
+				alert.play();
+		} else {
+			if (alert.isPlaying())
+				alert.stop();
+		}
+
+	}
+
 
 }
