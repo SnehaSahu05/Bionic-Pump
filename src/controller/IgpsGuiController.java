@@ -179,8 +179,6 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	@FXML
 	private Button btnPDel;
 
-	private int carbs = 0;
-
 	private Map<String, Integer> carbsValue = new HashMap<String, Integer>();
 
 	private Clock timerClock;
@@ -300,6 +298,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 	@FXML
 	void consumedMeal(ActionEvent event) {
+		carbs = 0;
 		if (btnConsume.getText() == "Go") {
 			btnConsume.setText("Consume");
 			carbs -= 10;
@@ -316,6 +315,25 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			}
 			addMessage(String.format("Consumed %d units of carbohydrates", carbs), Color.RED);
 			// addMessage("Consumed Meal", Color.GREEN);
+			if (isMealConsumed) {
+				rangeTimerOnMealConsumed.cancel();
+				//rangeTimerOnMealConsumed.purge();
+				rangeTimerOnMealConsumed = new Timer();
+			}
+
+			rangeTimerOnMealConsumed.schedule(new TimerTask() {
+
+				@Override
+				public void run() {
+					isMealConsumed = false;
+					rangeTimerOnMealConsumed.cancel();
+					rangeTimerOnMealConsumed = new Timer();
+				//	rangeTimerOnMealConsumed.purge();
+
+				}
+			}, 60000, 60000);
+
+			isMealConsumed = true;
 			grpMeal.setDisable(true);
 		}
 		btnConsume.setDisable(true);
@@ -324,24 +342,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 		BloodGlucoseSensor.getInstance().bglChangeOnActivity(carbs);
 		clearCheckBox();
-		carbs = 0;
 
-		if (isMealConsumed) {
-			rangeTimerOnMealConsumed.cancel();
-			rangeTimerOnMealConsumed = new Timer();
-		}
-
-		rangeTimerOnMealConsumed.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				isMealConsumed = false;
-				rangeTimerOnMealConsumed.cancel();
-
-			}
-		}, 60000, 1000);
-
-		isMealConsumed = true;
 }
 
 	@FXML
@@ -471,7 +472,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 			mediator.startSimulator(timer);
 		}
-
+	}
 
 	private void checkForBGLWarnings(boolean isMealTimerFinished, int glucoseLevel) {
 		Color color = null;
