@@ -4,7 +4,7 @@ public class InsulinReservoir {
 
 	private static InsulinReservoir insulin_reservoir_instance = null;
 	private static Double current_insulin_level = 0.0;
-	private Double max_insulin_level = AssemblyConstants.HUNDRED;
+	private double max_insulin_level = AssemblyConstants.HUNDRED;
 
 	public InsulinReservoir() {
 		current_insulin_level = max_insulin_level;

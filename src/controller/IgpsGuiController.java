@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.Timer;
 
+import assembly.AssemblyConstants;
 import controller.Clock.LoadingSetTimeListener;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -40,7 +41,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class IgpsGuiController implements Initializable, LoadingSetTimeListener {
+public class IgpsGuiController implements Initializable, LoadingSetTimeListener, DisplayControllable {
 
 	@FXML
 	private Text txtTimer;
@@ -155,7 +156,10 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener 
 	private Clock timerClock;
 	private ObservableList<Text> msgBoxItems = FXCollections.observableArrayList();
 
+	private static int i = 0;
+
 	private static Series<Number, Number> series = new XYChart.Series<Number, Number>();
+	private int previousBGL;
 
 	@Override
 	public void initialize(URL path, ResourceBundle resource) {
@@ -190,6 +194,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener 
 		addMessage("Simulator switched On", Color.GREEN);
 		grpMeal.setDisable(true);
 
+
 		// apPatientInfo.disableProperty();
 
 		// start simulator
@@ -207,12 +212,12 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener 
 
 	private void startIGPSimulator() {
 		Timer timer = new Timer();
+		DisplayToControllerMediator mediator = new DisplayToControllerMediator(this);
 		synchronized (timer) {
 
-			DisplayToControllerMediator.getInstance().startSimulator(timer);
+			mediator.startSimulator(timer);
 		}
 
-		System.out.println("Scheduling started");
 	}
 
 	@FXML
@@ -249,10 +254,12 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener 
 	@FXML
 	public void onWorkOut(ActionEvent event) {
 		menuBtn.setText("Go for Workout");
+
 	}
 
 	@FXML
 	public void onMealSelected(ActionEvent event) {
+
 		menuBtn.setText("Proceed for a meal");
 		grpMeal.setDisable(false);
 	}
@@ -262,6 +269,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener 
 		addMessage("Consumed Meal", Color.GREEN);
 		grpMeal.setDisable(true);
 		menuBtn.setText("Select Activity");
+
 	}
 
 	@FXML
@@ -278,10 +286,12 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener 
 
 			BatteryManager.setNewBattery(new Double(100));
 
+
 		} catch (Exception ex) {
 
 		}
 	}
+
 
 	@FXML
 	void exitSimulator(ActionEvent event) {
@@ -289,18 +299,46 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener 
 		scene.close();
 	}
 
-	public static void setParameters(HashMap<String, Double> accesorystatus) {
-		// TODO set all GUI related parameters
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see controller.Clock.LoadingSetTimeListener#setTime(java.lang.String)
+	 */
+	@Override
+	public void setTime(String currentTime) {
+		txtTimer.setText(currentTime);
+
+	}
+
+	@Override
+	public void setDisplayParameters(final HashMap<String, Number> parameters) {
 
 		Platform.runLater(new Runnable() {
 
 			@Override
 			public void run() {
+				series.getData().add(new XYChart.Data<Number, Number>(i, (Integer) parameters.get("glucoselevel")));
+				progressBattery.setProgress((double) parameters.get("batterylevel"));
+				progressInsulinBank.setProgress((double) parameters.get("insulinlevel"));
+				txtNewBSL.setText(String.valueOf(parameters.get("glucoselevel")));
+				txtPrevBSL.setText(String.valueOf(previousBGL));
+				previousBGL = (int) parameters.get("glucoselevel");
+				// setting display
+				Double batteryLevel = ((Double) parameters.get("batterylevel")) * AssemblyConstants.HUNDRED;
+				txtBatteryLevel.setText(String.valueOf(batteryLevel.intValue()));
 
+				i++;
+				if (i > 13) {
+					series.getData().remove(0);
+					linePlotBSLxAxis.setLowerBound(linePlotBSLxAxis.getLowerBound() + 1);
+					linePlotBSLyAxis.setUpperBound(linePlotBSLxAxis.getUpperBound() + 1);
+
+				}
 			}
 		});
 
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -312,5 +350,6 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener 
 		txtTimer.setText(currentTime);
 
 	}
+
 
 }

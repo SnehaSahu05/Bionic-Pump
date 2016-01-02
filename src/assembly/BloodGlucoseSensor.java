@@ -2,48 +2,38 @@ package assembly;
 
 public class BloodGlucoseSensor {
 	private static BloodGlucoseSensor BGSensorInstance = null;
-	private static double bloodglucose = AssemblyConstants.Ninety;;
+	private int bloodglucose = AssemblyConstants.NINETY;;
 
 	public BloodGlucoseSensor() {
 
 	}
 
-	public double checkBloodGlucose() {
+	public int checkBloodGlucose() {
 
 		return measureBloodGlucose();
 	}
 
-	public void bloodGlucoseChangeOnActivity(Boolean isinsulin, double carbs) {
+	public void bloodGlucoseChangeOnActivity(boolean isinsulin, double carbs) {
 		if (!isinsulin)
-			bloodglucose = bloodglucose + 200 * Math.exp(-2.77 * 10 / carbs);
+			bloodglucose = (int) (bloodglucose + 200 * Math.exp(-2.77 * 10 / carbs));
 		else
-			bloodglucose = bloodglucose - 200 * Math.exp((-1.45) / carbs);
+			bloodglucose = (int) (bloodglucose - 200 * Math.exp((-1.45) / carbs));
 	}
 
 	public void bloodGlucoseChangeOnBasalActivity(double insulin) {
 
-		bloodglucose = bloodglucose - 40 * (insulin);
+		bloodglucose = (int) (bloodglucose - 40 * (insulin));
 
 	}
 
-	public static void main(String[] args) {
-		// getInstance().bloodchangeBolus(true, 50);
-		// getInstance().bloodchangeBolus(false, 50);
-
-	}
 
 	public void bloodchangeBolus() {
-		bloodglucose = AssemblyConstants.HUNDRED;
+		bloodglucose = AssemblyConstants.HUNDRED_INTEGER;
 
 	}
 
-	private static double measureBloodGlucose() {
+	private int measureBloodGlucose() {
 
-		/*
-		 * Double glucoseabovebelownormal = Math.random()*50; BloodGlucose =
-		 * NormalBloodGlucoseMin+ glucoseabovebelownormal;
-		 */
-		// bloodglucose = 150 -200*Math.exp((-1.45)/0.3148);;
 		return bloodglucose;
 
 	}
