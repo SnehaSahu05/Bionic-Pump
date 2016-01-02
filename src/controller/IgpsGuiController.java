@@ -7,6 +7,7 @@ import java.util.Timer;
 
 import assembly.AssemblyConstants;
 import controller.Clock.LoadingSetTimeListener;
+import controller.DisplayToControllerMediator.DisplayControllable;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -188,8 +189,8 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		textRangeBSL.setText("NORMAL");
 		txtBatteryLevel.setText("100");
 		progressBattery.setProgress(1);
-		progressInsulinBank.setProgress(1);
-		progressGlucagonBank.setProgress(1);
+		progressInsulinBank.setProgress(0);
+		progressGlucagonBank.setProgress(0);
 		listMsgBox.setItems(msgBoxItems);
 		addMessage("Simulator switched On", Color.GREEN);
 		grpMeal.setDisable(true);
@@ -299,16 +300,6 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		scene.close();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see controller.Clock.LoadingSetTimeListener#setTime(java.lang.String)
-	 */
-	@Override
-	public void setTime(String currentTime) {
-		txtTimer.setText(currentTime);
-
-	}
 
 	@Override
 	public void setDisplayParameters(final HashMap<String, Number> parameters) {
@@ -319,7 +310,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			public void run() {
 				series.getData().add(new XYChart.Data<Number, Number>(i, (Integer) parameters.get("glucoselevel")));
 				progressBattery.setProgress((double) parameters.get("batterylevel"));
-				progressInsulinBank.setProgress((double) parameters.get("insulinlevel"));
+				//progressInsulinBank.setProgress((double) parameters.get("insulinlevel"));
 				txtNewBSL.setText(String.valueOf(parameters.get("glucoselevel")));
 				txtPrevBSL.setText(String.valueOf(previousBGL));
 				previousBGL = (int) parameters.get("glucoselevel");
