@@ -98,7 +98,7 @@
                            </children></AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="669.0" prefWidth="317.0">
                            <children>
-                              <SplitPane dividerPositions="0.41700404858299595" orientation="VERTICAL" prefHeight="496.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <SplitPane dividerPositions="0.602880658436214" orientation="VERTICAL" prefHeight="496.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
                                   <AnchorPane fx:id="apMsg" minHeight="0.0" minWidth="0.0" prefHeight="286.0" prefWidth="309.0">
                                        <children>
@@ -110,24 +110,54 @@
                                           </Label>
                                        </children>
                                     </AnchorPane>
-                                  <AnchorPane fx:id="apActivity" minHeight="0.0" minWidth="0.0" prefHeight="319.0" prefWidth="298.0">
+                                  <AnchorPane fx:id="apActivity" minHeight="0.0" minWidth="0.0" prefHeight="202.0" prefWidth="298.0">
                                        <children>
-                                          <MenuButton fx:id="menuBtn" layoutX="18.0" layoutY="14.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="251.0" text="Select Activity">
+                                          <MenuButton fx:id="menuBtn" layoutX="18.0" layoutY="11.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="251.0" text="Select Activity">
                                             <items>
                                               <MenuItem fx:id="menuItmWorkout" mnemonicParsing="false" onAction="#onWorkOut" text="Go for Workout" />
                                               <MenuItem fx:id="menuItmMeal" mnemonicParsing="false" onAction="#onMealSelected" text="Proceed for a meal" />
                                             </items>
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
                                           </MenuButton>
-                                          <Group fx:id="grpMeal">
+                                          <Group fx:id="grpMeal" layoutY="-99.0">
                                              <children>
-                                                <CheckBox fx:id="chkBox2" layoutX="18.0" layoutY="102.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal (5)" />
-                                                <CheckBox fx:id="chkBox3" layoutX="18.0" layoutY="167.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal ( )" />
-                                                <CheckBox fx:id="chkBox3" layoutX="18.0" layoutY="134.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal (20)" />
-                                                <CheckBox fx:id="chkBox3" layoutX="18.0" layoutY="201.0" mnemonicParsing="false" onAction="#setCarbsValue" text="meal ( )" />
-                                                <Button fx:id="btnConsume" layoutX="170.0" layoutY="233.0" mnemonicParsing="false" onAction="#consumedMeal" prefHeight="39.0" prefWidth="111.0" text="Consume" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="15.0" />
-                                                <CheckBox fx:id="chkBoxCoke" layoutX="18.0" layoutY="69.0" mnemonicParsing="false" onAction="#setCarbsValue" text="Coke (12)" />
+                                             <CheckBox fx:id="chkBoxCoke" layoutX="18.0" layoutY="157.0" mnemonicParsing="false" text="Coke (14)">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font></CheckBox>
+                                                <CheckBox fx:id="chkBoxRice" layoutX="18.0" layoutY="211.0" mnemonicParsing="false" text="Cooked Rice (25)">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font></CheckBox>
+                                                <CheckBox fx:id="chkBoxBread" layoutX="18.0" layoutY="184.0" mnemonicParsing="false" text="Bread (8)">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </CheckBox>
+                                                <CheckBox fx:id="chkBoxChocolate" layoutX="157.0" layoutY="185.0" mnemonicParsing="false" text="Chocolate (15)">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </CheckBox>
+                                                <CheckBox fx:id="chkBoxHoney" layoutX="157.0" layoutY="159.0" mnemonicParsing="false" text="Honey (12)">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </CheckBox>
                                              </children>
                                           </Group>
+                                          <Button fx:id="btnConsume" disable="true" layoutX="130.0" layoutY="146.0" mnemonicParsing="false" onAction="#consumedMeal" prefHeight="24.0" prefWidth="87.0" text="Consume" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="81.0">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="btnCancel" disable="true" layoutX="220.0" layoutY="146.0" mnemonicParsing="false" onAction="#cancelActivity" prefHeight="30.0" prefWidth="61.0" text="Cancel" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="17.0">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
                                        </children>
                                     </AnchorPane>
                                 </items>

@@ -2,16 +2,23 @@ package controller;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Timer;
 
+import com.sun.org.apache.bcel.internal.generic.Select;
+
 import assembly.AssemblyConstants;
+import assembly.BloodGlucoseSensor;
 import controller.Clock.LoadingSetTimeListener;
 import controller.DisplayToControllerMediator.DisplayControllable;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.BooleanPropertyBase;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,10 +26,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
@@ -37,6 +47,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 //import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -57,10 +68,19 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	private TextField txtNewBSL;
 
 	@FXML
-	private CheckBox chkBox2;
+	private CheckBox chkBoxCoke;
 
 	@FXML
-	private CheckBox chkBox3;
+	private CheckBox chkBoxBread;
+
+	@FXML
+	private CheckBox chkBoxRice;
+
+	@FXML
+	private CheckBox chkBoxHoney;
+
+	@FXML
+	private CheckBox chkBoxChocolate;
 
 	@FXML
 	private Button btnBattery;
@@ -70,11 +90,15 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 	@FXML
 	private MenuItem menuItmMeal;
+
 	@FXML
 	private Group grpMeal;
 
 	@FXML
 	private Button btnConsume;
+
+	@FXML
+	private Button btnCancel;
 
 	@FXML
 	private ListView<Text> listMsgBox;
@@ -143,9 +167,6 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	private ProgressBar progressInsulinBank;
 
 	@FXML
-	private CheckBox chkBoxCoke;
-
-	@FXML
 	private ProgressBar progressGlucagonBank;
 
 	@FXML
@@ -153,6 +174,10 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 	@FXML
 	private Button btnPDel;
+
+	private int carbs = 0;
+
+	private Map<String, Integer> carbsValue = new HashMap<String, Integer>();
 
 	private Clock timerClock;
 	private ObservableList<Text> msgBoxItems = FXCollections.observableArrayList();
@@ -183,42 +208,25 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		linePlotBSL.getData().add(series);
 
 		// Default values
-
 		txtNewBSL.setText("90");
 		txtPrevBSL.setText("-");
 		textRangeBSL.setText("NORMAL");
 		txtBatteryLevel.setText("100");
 		progressBattery.setProgress(1);
-		progressInsulinBank.setProgress(0);
-		progressGlucagonBank.setProgress(0);
+		progressInsulinBank.setProgress(1);
+		progressGlucagonBank.setProgress(1);
 		listMsgBox.setItems(msgBoxItems);
 		addMessage("Simulator switched On", Color.GREEN);
 		grpMeal.setDisable(true);
-
-
+		btnConsume.setDisable(true);
+		btnCancel.setDisable(true);
 		// apPatientInfo.disableProperty();
+
+		// Add Carbs to Map variable (carbsValue) list
+		addCarbstoMap();
 
 		// start simulator
 		startIGPSimulator();
-	}
-
-	private void addMessage(String message, Color col) {
-		if (msgBoxItems.size() > 0) {
-			((Text) msgBoxItems.get(0)).setStroke(Color.GREY);
-		}
-		Text msg = new Text(message);
-		msg.setStroke(col);
-		msgBoxItems.add(0, msg);
-	}
-
-	private void startIGPSimulator() {
-		Timer timer = new Timer();
-		DisplayToControllerMediator mediator = new DisplayToControllerMediator(this);
-		synchronized (timer) {
-
-			mediator.startSimulator(timer);
-		}
-
 	}
 
 	@FXML
@@ -248,29 +256,58 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	}
 
 	@FXML
-	void setCarbsValue(ActionEvent event) {
-
-	}
-
-	@FXML
 	public void onWorkOut(ActionEvent event) {
 		menuBtn.setText("Go for Workout");
-
+		btnConsume.setText("Go");
+		btnConsume.setDisable(false);
+		btnCancel.setDisable(false);
 	}
 
 	@FXML
 	public void onMealSelected(ActionEvent event) {
-
 		menuBtn.setText("Proceed for a meal");
 		grpMeal.setDisable(false);
+		btnConsume.setDisable(false);
+		btnCancel.setDisable(false);
 	}
 
 	@FXML
 	void consumedMeal(ActionEvent event) {
-		addMessage("Consumed Meal", Color.GREEN);
-		grpMeal.setDisable(true);
+		if (btnConsume.getText() == "Go") {
+			btnConsume.setText("Consume");
+			carbs -= 10;
+			addMessage("You lose carbohydrates by 10 units", Color.GREEN);
+		} else {
+			ObservableList<Node> children = grpMeal.getChildren();
+			for (Iterator iter = children.iterator(); iter.hasNext();) {
+				Object obj = iter.next();
+				if (obj instanceof CheckBox) {
+					if (((CheckBox) obj).selectedProperty().getValue()) {
+						carbs += (int) carbsValue.get(((CheckBox) obj).getText());
+					}
+				}
+			}
+			addMessage(String.format("Consumed %d units of carbohydrates", carbs), Color.RED);
+			// addMessage("Consumed Meal", Color.GREEN);
+			grpMeal.setDisable(true);
+		}
+		btnConsume.setDisable(true);
+		btnCancel.setDisable(true);
 		menuBtn.setText("Select Activity");
+		BloodGlucoseSensor.getInstance().bglChangeOnActivity(carbs);
+		clearCheckBox();
+		carbs = 0;
+	}
 
+	@FXML
+	void cancelActivity(ActionEvent event) {
+		clearCheckBox();
+		carbs = 0;
+		btnConsume.setText("Consume");
+		menuBtn.setText("Select Activity");
+		btnConsume.setDisable(true);
+		btnCancel.setDisable(true);
+		grpMeal.setDisable(true);
 	}
 
 	@FXML
@@ -287,19 +324,17 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 			BatteryManager.setNewBattery(new Double(100));
 
-
 		} catch (Exception ex) {
 
 		}
 	}
 
-
 	@FXML
 	void exitSimulator(ActionEvent event) {
 		Stage scene = (Stage) mainAnchorPane.getScene().getWindow();
 		scene.close();
+		Platform.exit();
 	}
-
 
 	@Override
 	public void setDisplayParameters(final HashMap<String, Number> parameters) {
@@ -310,7 +345,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			public void run() {
 				series.getData().add(new XYChart.Data<Number, Number>(i, (Integer) parameters.get("glucoselevel")));
 				progressBattery.setProgress((double) parameters.get("batterylevel"));
-				//progressInsulinBank.setProgress((double) parameters.get("insulinlevel"));
+				progressInsulinBank.setProgress((double) parameters.get("insulinlevel"));
 				txtNewBSL.setText(String.valueOf(parameters.get("glucoselevel")));
 				txtPrevBSL.setText(String.valueOf(previousBGL));
 				previousBGL = (int) parameters.get("glucoselevel");
@@ -330,6 +365,56 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 	}
 
+	// for Popup menu.
+	public static void infoBox(String infoMessage, String titleBar, String headerMessage) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(titleBar);
+		alert.setHeaderText(headerMessage);
+		alert.setContentText(infoMessage);
+		alert.showAndWait();
+	}
+
+	private void clearCheckBox() {
+		ObservableList<Node> children = grpMeal.getChildren();
+		for (Iterator iter = children.iterator(); iter.hasNext();) {
+			Object obj = iter.next();
+			if (obj instanceof CheckBox) {
+				((CheckBox) obj).setSelected(false);
+			}
+		}
+	}
+
+	private void addCarbstoMap() {
+		try {
+			carbsValue.put(chkBoxCoke.getText(), 14);
+			carbsValue.put(chkBoxBread.getText(), 8);
+			carbsValue.put(chkBoxRice.getText(), 25);
+			carbsValue.put(chkBoxHoney.getText(), 12);
+			carbsValue.put(chkBoxChocolate.getText(), 15);
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
+		}
+	}
+
+	private void addMessage(String message, Color col) {
+		if (msgBoxItems.size() > 0) {
+			((Text) msgBoxItems.get(0)).setStroke(Color.GREY);
+		}
+		Text msg = new Text(message);
+		msg.setStroke(col);
+		msg.setFont(new Font(15));
+		msgBoxItems.add(0, msg);
+	}
+
+	private void startIGPSimulator() {
+		Timer timer = new Timer();
+		DisplayToControllerMediator mediator = new DisplayToControllerMediator(this);
+		synchronized (timer) {
+
+			mediator.startSimulator(timer);
+		}
+
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -341,6 +426,5 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		txtTimer.setText(currentTime);
 
 	}
-
 
 }
