@@ -2,7 +2,7 @@ package assembly;
 
 public class BloodGlucoseSensor {
 	private static BloodGlucoseSensor BGSensorInstance = null;
-	private int bloodglucose = AssemblyConstants.NINETY;;
+	private int bloodglucose = AssemblyConstants.NINETY;
 
 	public BloodGlucoseSensor() {
 
@@ -13,11 +13,16 @@ public class BloodGlucoseSensor {
 		return measureBloodGlucose();
 	}
 
-	public void bloodGlucoseChangeOnActivity(boolean isinsulin, double carbs) {
-		if (!isinsulin)
+	public void bglChangeOnActivity(double carbs) {
+		if (carbs > 0)
 			bloodglucose = (int) (bloodglucose + 200 * Math.exp(-2.77 * 10 / carbs));
 		else
-			bloodglucose = (int) (bloodglucose - 200 * Math.exp((-1.45) / carbs));
+			bloodglucose -= 6;
+	}
+
+	public void bglChangeOnInsulinDose(double insulin) {
+		if (insulin > 0)
+			bloodglucose = (int) (bloodglucose - 200 * Math.exp(-1.45 / insulin));
 	}
 
 	public void bloodGlucoseChangeOnBasalActivity(double insulin) {
@@ -25,7 +30,6 @@ public class BloodGlucoseSensor {
 		bloodglucose = (int) (bloodglucose - 40 * (insulin));
 
 	}
-
 
 	public void bloodchangeBolus() {
 		bloodglucose = AssemblyConstants.HUNDRED_INTEGER;

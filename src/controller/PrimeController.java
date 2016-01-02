@@ -10,7 +10,7 @@ import assembly.InsulinReservoir;
 import selfDefinedClasses.InsulinGlucagon;
 
 /**
- * 
+ *
  * @author Sneha Sahu
  */
 public class PrimeController {
@@ -43,7 +43,7 @@ public class PrimeController {
 		// injection
 
 		if (calculatedinsulindose > 0.0)
-			BloodGlucoseSensor.getInstance().bloodGlucoseChangeOnActivity(true, calculatedinsulindose);
+			BloodGlucoseSensor.getInstance().bglChangeOnInsulinDose(calculatedinsulindose);
 
 		// Put all the parameters in a map which is to be displayed on UI
 		current_battery_level = BatteryManager.getInstance().getBatteryLevel();
