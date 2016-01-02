@@ -7,14 +7,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * 
+ *
  * @author Winxberry
- * 
+ *
  */
 public class Igps_guiSimulator extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+
 		// Application.launch(Igps_guiSimulator.class,
 		// (java.lang.String[])null);
 	}
@@ -23,11 +24,11 @@ public class Igps_guiSimulator extends Application {
 	public void start(Stage stage) throws Exception {
 //		try {
 			AnchorPane page = (AnchorPane) FXMLLoader.load(getClass().getResource("igpsGui.fxml"));
-			
+
 			Scene scene = new Scene(page);
 			stage.setTitle("Simple IGPS");
 			stage.setResizable(false);
-			
+
 			stage.setScene(scene);
 			stage.show();
 //		} catch (Exception ex) {
@@ -40,7 +41,7 @@ public class Igps_guiSimulator extends Application {
 //		}
 
 	}
-	
-	
+
+
 
 }

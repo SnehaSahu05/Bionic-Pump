@@ -114,8 +114,8 @@
                                        <children>
                                           <MenuButton fx:id="menuBtn" layoutX="18.0" layoutY="14.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="251.0" text="Select Activity">
                                             <items>
-                                              <MenuItem fx:id="menuItmWorkout" mnemonicParsing="false" text="Go for Workout" />
-                                              <MenuItem fx:id="menuItmMeal" mnemonicParsing="false" text="Proceed for a meal" />
+                                              <MenuItem fx:id="menuItmWorkout" mnemonicParsing="false" onAction="#onWorkOut" text="Go for Workout" />
+                                              <MenuItem fx:id="menuItmMeal" mnemonicParsing="false" onAction="#onMealSelected" text="Proceed for a meal" />
                                             </items>
                                           </MenuButton>
                                           <Group fx:id="grpMeal">

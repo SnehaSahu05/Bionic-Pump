@@ -14,7 +14,7 @@ public class Clock {
 	private static long delay = 1;
 	private static long period = 1000;
 	private DateTime creationDate;
-	GregorianCalendar cal = new GregorianCalendar();
+	//GregorianCalendar cal = new GregorianCalendar();
 	private String formattedDate;
 	private final LoadingSetTimeListener callClasslistener;
 
@@ -30,8 +30,8 @@ public class Clock {
 
 			@Override
 			public synchronized void run() {
-				cal = new GregorianCalendar();
-				creationDate = new DateTime(cal.getTimeInMillis());
+				GregorianCalendar cal = new GregorianCalendar();  // new local object of gregorian calender each time of thread run.
+				creationDate = new DateTime(cal.getTimeInMillis()); // from  joda.time.Datetime check references.
 				formattedDate = creationDate.toString("HH:mm:ss");
 				//IgpsGuiController.setClock(formattedDate);
 				callClasslistener.setTime(formattedDate);
