@@ -20,6 +20,8 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.BooleanPropertyBase;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,6 +43,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -124,6 +127,9 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 	@FXML
 	private ProgressBar progressBattery;
+
+	@FXML
+	private ProgressIndicator piBatteryLevel;
 
 	@FXML
 	private TableColumn<?, ?> tabColPBSL;
@@ -213,6 +219,11 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		textRangeBSL.setText("NORMAL");
 		txtBatteryLevel.setText("100");
 		progressBattery.setProgress(1);
+		try {
+			piBatteryLevel.progressProperty().bind(progressBattery.progressProperty());
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
+		}
 		progressInsulinBank.setProgress(1);
 		progressGlucagonBank.setProgress(1);
 		listMsgBox.setItems(msgBoxItems);
@@ -274,7 +285,6 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		btnConsume.setDisable(false);
 		btnCancel.setDisable(false);
 
-
 		// check bgl
 		int currentGlucoseLevel = BloodGlucoseSensor.getInstance().checkBloodGlucose();
 		// inject insulin if bgl is greater than R1 Max
@@ -315,7 +325,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			// addMessage("Consumed Meal", Color.GREEN);
 			if (isMealConsumed) {
 				rangeTimerOnMealConsumed.cancel();
-				//rangeTimerOnMealConsumed.purge();
+				// rangeTimerOnMealConsumed.purge();
 				rangeTimerOnMealConsumed = new Timer();
 			}
 
@@ -326,7 +336,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 					isMealConsumed = false;
 					rangeTimerOnMealConsumed.cancel();
 					rangeTimerOnMealConsumed = new Timer();
-				//	rangeTimerOnMealConsumed.purge();
+					// rangeTimerOnMealConsumed.purge();
 
 				}
 			}, 60000, 60000);
@@ -341,7 +351,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		BloodGlucoseSensor.getInstance().bglChangeOnActivity(carbs);
 		clearCheckBox();
 
-}
+	}
 
 	@FXML
 	void cancelActivity(ActionEvent event) {
@@ -421,7 +431,6 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 	}
 
-
 	// for Popup menu.
 	public static void infoBox(String infoMessage, String titleBar, String headerMessage) {
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -433,7 +442,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 	private void clearCheckBox() {
 		ObservableList<Node> children = grpMeal.getChildren();
-		for (Iterator iter = children.iterator(); iter.hasNext();) {
+		for (Iterator<Node> iter = children.iterator(); iter.hasNext();) {
 			Object obj = iter.next();
 			if (obj instanceof CheckBox) {
 				((CheckBox) obj).setSelected(false);
@@ -551,7 +560,6 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 	}
 
-
 	private static void setAlarm(boolean isplay) {
 		if (isplay) {
 			if (!alert.isPlaying())
@@ -562,6 +570,5 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		}
 
 	}
-
 
 }
