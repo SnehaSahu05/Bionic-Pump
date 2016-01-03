@@ -191,12 +191,12 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <ProgressBar fx:id="progressBattery" layoutX="839.0" layoutY="42.0" prefHeight="31.0" prefWidth="130.0" progress="1.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="42.0" />
-      <Label layoutX="857.0" layoutY="43.0" prefHeight="27.0" prefWidth="50.0" text="Battery" AnchorPane.rightAnchor="103.0" AnchorPane.topAnchor="43.0">
+      <ProgressBar fx:id="progressBattery" layoutX="803.0" layoutY="42.0" prefHeight="31.0" prefWidth="130.0" progress="1.0" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="42.0" />
+      <Label layoutX="818.0" layoutY="43.0" prefHeight="27.0" prefWidth="50.0" text="Battery" AnchorPane.rightAnchor="142.0" AnchorPane.topAnchor="43.0">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Text fx:id="txtBatteryLevel" layoutX="915.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="29.10546875" AnchorPane.rightAnchor="65.89453125" AnchorPane.topAnchor="46.892578125">
+      <Text fx:id="txtBatteryLevel" layoutX="915.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="29.10546875" AnchorPane.rightAnchor="65.89453125" AnchorPane.topAnchor="46.892578125">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Text>
@@ -205,16 +205,12 @@
             <Image url="@../../Title.JPG" />
          </image>
       </ImageView>
-      <Button fx:id="btnBattery" layoutX="970.0" layoutY="45.0" mnemonicParsing="false" onAction="#fillupBattery" prefHeight="24.0" prefWidth="24.0" text="+" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="45.0">
-         <font>
-            <Font size="11.0" />
-         </font></Button>
       <Button fx:id="btnExit" layoutX="836.0" layoutY="12.0" mnemonicParsing="false" onAction="#exitSimulator" prefHeight="27.0" prefWidth="157.0" text="Exit Simulator" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="12.0">
          <font>
             <Font name="Arial" size="14.0" />
          </font>
       </Button>
-      <Text layoutX="947.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%" AnchorPane.rightAnchor="50.859375" AnchorPane.topAnchor="45.892578125">
+      <Text layoutX="947.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%" visible="false" AnchorPane.rightAnchor="50.859375" AnchorPane.topAnchor="45.892578125">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -224,5 +220,10 @@
             <Font size="18.0" />
          </font>
       </Text>
+      <ProgressIndicator fx:id="piBatteryLevel" layoutX="938.0" layoutY="42.0" prefHeight="39.0" prefWidth="44.0" progress="0.0" />
+      <Button fx:id="btnBattery" layoutX="970.0" layoutY="45.0" mnemonicParsing="false" onAction="#fillupBattery" prefHeight="24.0" prefWidth="24.0" text="+" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="45.0">
+         <font>
+            <Font size="11.0" />
+         </font></Button>
    </children>
 </AnchorPane>

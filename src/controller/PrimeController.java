@@ -34,7 +34,7 @@ public class PrimeController {
 	public Map<String, Number> computeDosage() {
 		// step 1. Check blood glucose level
 		int bgLevel = BloodGlucoseSensor.getInstance().checkBloodGlucose();
-		accesorystatus.put("glucoselevel", BloodGlucoseSensor.getInstance().checkBloodGlucose());
+		accesorystatus.put("glucoselevel", bgLevel);
 
 		// Step 2. Compute dose based on blood glucose level
 
@@ -50,7 +50,8 @@ public class PrimeController {
 		current_battery_level = BatteryManager.getInstance().getBatteryLevel();
 
 		accesorystatus.put("insulinlevel", InsulinReservoir.getInstance().checkInsuliLevel(calculatedinsulindose));
-		//accesorystatus.put("glucoselevel", BloodGlucoseSensor.getInstance().checkBloodGlucose());
+		// accesorystatus.put("glucoselevel",
+		// BloodGlucoseSensor.getInstance().checkBloodGlucose());
 		accesorystatus.put("batterylevel", current_battery_level);
 
 		return accesorystatus;
