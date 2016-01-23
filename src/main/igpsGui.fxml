@@ -120,7 +120,7 @@
                                               <MenuItem fx:id="menuItmMeal" mnemonicParsing="false" onAction="#onMealSelected" text="Proceed for a meal" />
                                             </items>
                                              <font>
-                                                <Font size="16.0" />
+                                                <Font size="15.0" />
                                              </font>
                                           </MenuButton>
                                           <Group fx:id="grpMeal" layoutX="-3.0" layoutY="-80.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="20.19189453125">

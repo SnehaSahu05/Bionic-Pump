@@ -627,8 +627,8 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 						series.getData().remove(0);
 						seriesU.getData().remove(0);
 					}
-					if (msgBoxItems.size() > 10) {
-						msgBoxItems.remove(11);
+					if (msgBoxItems.size() > 15) {
+						msgBoxItems.remove(16);
 					}
 				}
 			});
