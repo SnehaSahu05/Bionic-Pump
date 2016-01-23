@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import controller.IgpsGuiController;
+import controller.PrimeController;
 
-public class DisplayToControllerMediator extends TimerTask {
+public class Mediator extends TimerTask {
 
 	public interface DisplayControllable {
 		void setDisplayParameters(HashMap<String, Number> parameters);
@@ -17,7 +17,7 @@ public class DisplayToControllerMediator extends TimerTask {
 	private int i = 0;
 	private DisplayControllable displayControllerInterface;
 		
-	public DisplayToControllerMediator(DisplayControllable controllable){
+	public Mediator(DisplayControllable controllable){
 		displayControllerInterface = controllable;
 	}
 

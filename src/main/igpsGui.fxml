@@ -21,36 +21,38 @@
                            <children>
                               <LineChart fx:id="linePlotBSL" layoutX="24.0" layoutY="179.0" prefHeight="345.0" prefWidth="645.0" title="Blood Sugar Levels at regular Time-Intervals" AnchorPane.bottomAnchor="-15.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="27.0">
                                 <xAxis>
-                                  <CategoryAxis fx:id="linePlotBSLxAxis" prefHeight="46.0" prefWidth="544.0" tickLabelRotation="75.0" />
+                                  <CategoryAxis fx:id="linePlotBSLxAxis" prefHeight="46.0" prefWidth="544.0" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis fx:id="linePlotBSLyAxis" label="Sugar Level (in mg/dl)" prefHeight="187.0" prefWidth="71.0" side="LEFT" tickLabelGap="5.0" upperBound="200.0" />
                                 </yAxis>
                               </LineChart>
-                              <Group fx:id="grpBank" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="16.0">
+                              <Group fx:id="grpBank" layoutX="8.6171875" layoutY="-12.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="16.0">
                                  <children>
-                                    <Label layoutX="503.0" layoutY="19.0" prefHeight="24.0" prefWidth="130.0" text="INSULIN BANK" AnchorPane.rightAnchor="63.0" AnchorPane.topAnchor="19.0">
+                                    <Label layoutX="532.0" layoutY="28.0" prefHeight="24.0" prefWidth="104.0" text="INSULIN BANK" AnchorPane.rightAnchor="-505.845703125" AnchorPane.topAnchor="28.0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <ProgressBar fx:id="progressInsulinBank" layoutX="501.0" layoutY="47.0" prefHeight="27.0" prefWidth="165.0" progress="1.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="47.0" />
-                                    <ProgressBar fx:id="progressGlucagonBank" layoutX="501.0" layoutY="110.0" prefHeight="27.0" prefWidth="165.0" progress="1.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="110.0" />
-                                    <Label layoutX="503.0" layoutY="80.0" prefHeight="30.0" prefWidth="130.0" text="GLUCAGON BANK" AnchorPane.rightAnchor="63.0" AnchorPane.topAnchor="80.0">
+                                    <ProgressBar fx:id="progressInsulinBank" layoutX="528.0" layoutY="50.0" prefHeight="27.0" prefWidth="104.0" progress="1.0" AnchorPane.rightAnchor="-476.845703125" AnchorPane.topAnchor="50.0" />
+                                    <ProgressBar fx:id="progressGlucagonBank" layoutX="528.0" layoutY="110.0" prefHeight="27.0" prefWidth="104.0" progress="1.0" AnchorPane.rightAnchor="-449.0" AnchorPane.topAnchor="110.0" />
+                                    <Label layoutX="533.0" layoutY="84.0" prefHeight="30.0" prefWidth="125.0" text="GLUCAGON BANK" AnchorPane.rightAnchor="-528.0" AnchorPane.topAnchor="84.0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="btnGlucagon" layoutX="635.0" layoutY="79.0" mnemonicParsing="false" onAction="#fillupGlucagonBank" prefHeight="31.0" prefWidth="27.0" text="+" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="79.0">
+                                    <Button fx:id="btnGlucagon" layoutX="635.0" layoutY="111.0" mnemonicParsing="false" onAction="#fillupGlucagonBank" prefHeight="15.0" prefWidth="19.0" text="+" AnchorPane.rightAnchor="-493.154296875" AnchorPane.topAnchor="111.0">
                                        <font>
-                                          <Font size="14.0" />
+                                          <Font size="11.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="btnInsulin" layoutX="635.0" layoutY="16.0" mnemonicParsing="false" onAction="#fillupInsulinBank" prefHeight="24.0" prefWidth="21.0" text="+" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="16.0">
+                                    <Button fx:id="btnInsulin" layoutX="635.0" layoutY="52.0" mnemonicParsing="false" onAction="#fillupInsulinBank" prefHeight="16.0" prefWidth="20.0" text="+" AnchorPane.rightAnchor="-503.0" AnchorPane.topAnchor="52.0">
                                        <font>
-                                          <Font size="14.0" />
+                                          <Font size="11.0" />
                                        </font>
                                     </Button>
+                                    <ProgressIndicator fx:id="piIlvl" layoutX="584.0" layoutY="45.0" prefHeight="28.0" prefWidth="43.0" progress="0.92" />
+                                    <ProgressIndicator fx:id="piGlvl" layoutX="584.0" layoutY="105.0" prefHeight="28.0" prefWidth="43.0" progress="0.92" />
                                  </children>
                               </Group>
                               <HBox layoutX="14.0" layoutY="51.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="51.0">
@@ -98,62 +100,60 @@
                            </children></AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="669.0" prefWidth="317.0">
                            <children>
-                              <SplitPane dividerPositions="0.602880658436214" orientation="VERTICAL" prefHeight="496.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <SplitPane dividerPositions="0.6111111111111112" orientation="VERTICAL" prefHeight="496.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
                                   <AnchorPane fx:id="apMsg" minHeight="0.0" minWidth="0.0" prefHeight="286.0" prefWidth="309.0">
                                        <children>
-                                          <ListView fx:id="listMsgBox" editable="true" layoutX="9.0" layoutY="41.0" prefHeight="146.0" prefWidth="275.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="41.0" />
-                                          <Label contentDisplay="CENTER" layoutX="100.0" layoutY="10.0" prefHeight="27.0" prefWidth="97.0" text="Message Box" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0">
+                                          <Label contentDisplay="CENTER" layoutX="101.0" prefHeight="31.0" prefWidth="97.0" text="Message Box" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font name="System Bold" size="15.0" />
                                              </font>
                                           </Label>
+                                          <ListView fx:id="listMsgBox" layoutX="8.0" layoutY="28.0" prefHeight="253.0" prefWidth="282.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="28.0" />
                                        </children>
                                     </AnchorPane>
-                                  <AnchorPane fx:id="apActivity" minHeight="0.0" minWidth="0.0" prefHeight="202.0" prefWidth="298.0">
+                                  <AnchorPane fx:id="apActivity" minHeight="0.0" minWidth="0.0" prefHeight="191.0" prefWidth="298.0">
                                        <children>
-                                          <MenuButton fx:id="menuBtn" layoutX="18.0" layoutY="11.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="251.0" text="Select Activity">
+                                          <MenuButton fx:id="menuBtn" layoutX="19.0" layoutY="9.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="251.0" text="Select Activity">
                                             <items>
                                               <MenuItem fx:id="menuItmWorkout" mnemonicParsing="false" onAction="#onWorkOut" text="Go for Workout" />
                                               <MenuItem fx:id="menuItmMeal" mnemonicParsing="false" onAction="#onMealSelected" text="Proceed for a meal" />
                                             </items>
-                                             <font>
-                                                <Font size="17.0" />
-                                             </font>
                                           </MenuButton>
-                                          <Group fx:id="grpMeal" layoutY="-99.0">
+                                          <Group fx:id="grpMeal" layoutX="3.0" layoutY="-92.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0">
                                              <children>
-                                             <CheckBox fx:id="chkBoxCoke" layoutX="18.0" layoutY="157.0" mnemonicParsing="false" text="Coke (14)">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font></CheckBox>
-                                                <CheckBox fx:id="chkBoxRice" layoutX="18.0" layoutY="211.0" mnemonicParsing="false" text="Cooked Rice (25)">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font></CheckBox>
-                                                <CheckBox fx:id="chkBoxBread" layoutX="18.0" layoutY="184.0" mnemonicParsing="false" text="Bread (8)">
+                                                <CheckBox fx:id="chkBoxBread" layoutX="18.0" layoutY="180.0" mnemonicParsing="false" text="Bread (8)">
                                                    <font>
                                                       <Font size="15.0" />
                                                    </font>
                                                 </CheckBox>
-                                                <CheckBox fx:id="chkBoxChocolate" layoutX="157.0" layoutY="185.0" mnemonicParsing="false" text="Chocolate (15)">
+                                                <CheckBox fx:id="chkBoxCoke" layoutX="18.0" layoutY="153.0" mnemonicParsing="false" text="Coke (14)">
                                                    <font>
                                                       <Font size="15.0" />
                                                    </font>
                                                 </CheckBox>
-                                                <CheckBox fx:id="chkBoxHoney" layoutX="157.0" layoutY="159.0" mnemonicParsing="false" text="Honey (12)">
+                                                <CheckBox fx:id="chkBoxChocolate" layoutX="157.0" layoutY="180.0" mnemonicParsing="false" text="Chocolate (15)">
                                                    <font>
                                                       <Font size="15.0" />
+                                                   </font>
+                                                </CheckBox>
+                                                <CheckBox fx:id="chkBoxRice" layoutX="18.0" layoutY="206.0" mnemonicParsing="false" text="Cooked Rice (25)">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </CheckBox>
+                                                <CheckBox fx:id="chkBoxHoney" layoutX="157.0" layoutY="151.0" mnemonicParsing="false" text="Honey (12)">
+                                                   <font>
+                                                      <Font size="16.0" />
                                                    </font>
                                                 </CheckBox>
                                              </children>
                                           </Group>
-                                          <Button fx:id="btnConsume" disable="true" layoutX="130.0" layoutY="146.0" mnemonicParsing="false" onAction="#consumedMeal" prefHeight="24.0" prefWidth="87.0" text="Consume" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="81.0">
+                                          <Button fx:id="btnConsume" layoutX="133.0" layoutY="145.0" mnemonicParsing="false" onAction="#ActionTakenMealOrWorkout" prefHeight="30.0" prefWidth="84.0" text="Consume" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="81.0">
                                              <font>
                                                 <Font size="14.0" />
-                                             </font>
-                                          </Button>
-                                          <Button fx:id="btnCancel" disable="true" layoutX="220.0" layoutY="146.0" mnemonicParsing="false" onAction="#cancelActivity" prefHeight="30.0" prefWidth="61.0" text="Cancel" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="17.0">
+                                             </font></Button>
+                                          <Button fx:id="btnCancel" layoutX="221.0" layoutY="145.0" mnemonicParsing="false" onAction="#cancelActivity" text="Cancel" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="15.0">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -186,44 +186,34 @@
                     </columns>
                   </TableView>
                   <Text fill="#00000067" layoutX="21.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FUTURE WORK - Patient Database" wrappingWidth="434.205078125" />
-                  <ScrollBar fx:id="tabScroll" layoutX="946.0" layoutY="62.0" orientation="VERTICAL" prefHeight="84.0" prefWidth="34.0" />
+                  <ScrollBar fx:id="scroll" layoutX="946.0" layoutY="62.0" orientation="VERTICAL" prefHeight="84.0" prefWidth="34.0" />
                </children>
             </AnchorPane>
         </items>
       </SplitPane>
-      <ProgressBar fx:id="progressBattery" layoutX="803.0" layoutY="42.0" prefHeight="31.0" prefWidth="130.0" progress="1.0" AnchorPane.rightAnchor="77.0" AnchorPane.topAnchor="42.0" />
-      <Label layoutX="818.0" layoutY="43.0" prefHeight="27.0" prefWidth="50.0" text="Battery" AnchorPane.rightAnchor="142.0" AnchorPane.topAnchor="43.0">
+      <ProgressBar fx:id="progressBattery" layoutX="851.0" layoutY="42.0" prefHeight="31.0" prefWidth="115.0" progress="1.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="42.0" />
+      <Label fx:id="labelBattery" layoutX="862.0" layoutY="43.0" prefHeight="27.0" prefWidth="50.0" text="Battery" AnchorPane.rightAnchor="98.0" AnchorPane.topAnchor="43.0">
          <font>
-            <Font size="14.0" />
+            <Font size="16.0" />
          </font></Label>
-      <Text fx:id="txtBatteryLevel" layoutX="915.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" visible="false" wrappingWidth="29.10546875" AnchorPane.rightAnchor="65.89453125" AnchorPane.topAnchor="46.892578125">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font></Text>
-      <ImageView fitHeight="84.0" fitWidth="420.0" layoutX="295.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="295.0" AnchorPane.rightAnchor="295.0" AnchorPane.topAnchor="8.0">
+      <ImageView fitHeight="77.0" fitWidth="506.0" layoutX="252.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="252.0" AnchorPane.topAnchor="23.0">
          <image>
             <Image url="@../../Title.JPG" />
          </image>
       </ImageView>
-      <Button fx:id="btnExit" layoutX="836.0" layoutY="12.0" mnemonicParsing="false" onAction="#exitSimulator" prefHeight="27.0" prefWidth="157.0" text="Exit Simulator" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="12.0">
-         <font>
-            <Font name="Arial" size="14.0" />
-         </font>
-      </Button>
-      <Text layoutX="947.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%" visible="false" AnchorPane.rightAnchor="50.859375" AnchorPane.topAnchor="45.892578125">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtTimer" layoutX="29.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="91.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <ProgressIndicator fx:id="piBatteryLevel" layoutX="938.0" layoutY="42.0" prefHeight="39.0" prefWidth="44.0" progress="0.0" />
       <Button fx:id="btnBattery" layoutX="970.0" layoutY="45.0" mnemonicParsing="false" onAction="#fillupBattery" prefHeight="24.0" prefWidth="24.0" text="+" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="45.0">
          <font>
             <Font size="11.0" />
          </font></Button>
+      <TextField fx:id="txtTimer" layoutX="14.0" layoutY="21.0" prefHeight="39.0" prefWidth="115.0" text="Timer">
+         <font>
+            <Font name="System Italic" size="18.0" />
+         </font></TextField>
+      <Button fx:id="btnExit" layoutX="868.0" layoutY="10.0" mnemonicParsing="false" onAction="#exitSimulator" prefHeight="27.0" prefWidth="147.0" text="Exit Simulator" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Button>
+      <ProgressIndicator fx:id="piBatteryLevel" layoutX="922.0" layoutY="38.0" prefHeight="31.0" prefWidth="35.0" progress="0.92" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="38.0" />
    </children>
 </AnchorPane>
