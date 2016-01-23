@@ -4,8 +4,10 @@ import declarations.AssemblyConstants;
 
 public class BloodGlucoseSensor {
 	private static BloodGlucoseSensor BGSensorInstance = null;
+	public static final double k1 = 0.0453;
+	public static final double k2 = 0.0224;
 
-	private int bloodsugar = AssemblyConstants.HUNDRED_INTEGER;
+	private int bloodsugar = AssemblyConstants.NORMAL_BSL;
 
 	public BloodGlucoseSensor() {
 	}
@@ -14,23 +16,40 @@ public class BloodGlucoseSensor {
 		return measureBloodGlucose();
 	}
 
-	public void bslChangeOnActivity(double carbs) {
-		/* k1=0.0453; k2=0.0224; t=30.8min~2times[5sec~15min] */
-		// double k1 = 0.0453;
-		// double k2 = 0.0224;
-		if (carbs > 0)
-			// bloodsugar = (int) (bloodsugar + ( 2 * carbs * (k1/(k2-k1)) *
-			// (Math.exp(-k1 * 30.8)-Math.exp(-k2 * 30.8)) ));
-			bloodsugar = (int) (bloodsugar + 200 * Math.exp(-2.77 * 10 / carbs));
-		else
-			bloodsugar -= 6;
+	public void bslChangeOnIdle() {
+		// System.out.println("Idle @ BGS.java - OldBSL: " + bloodsugar);
+		bloodsugar -= (5 * (k1 / (k2 - k1)) * (Math.exp(-k1 * 5) - Math.exp(-k2 * 5)));
+		// System.out.println("Idle @ BGS.java - NewBSL: " + bloodsugar);
+	}
+
+	public void bslChangeOnActivity(double carbs, int t) {
+		/* k1=0.0453; k2=0.0224; t=4x5sec[5sec~10min] */
+		if (carbs != 0) {
+			//System.out.println("Activity @ BGS.java - OldBSL: " + bloodsugar + "Acarbs: " + carbs + "T: " + t);
+			bloodsugar += (2 * carbs * (k1 / (k2 - k1)) * (Math.exp(-k1 * 5 * t) - Math.exp(-k2 * 5 * t)));
+			t++;
+			AssemblyConstants.T = t;
+			if (t == AssemblyConstants.Tmax) {
+				carbs = 0;
+				AssemblyConstants.CARBS = carbs;
+			}
+			//System.out.println("Activity @ BGS.java - NewBSL: " + bloodsugar + "Acarbs: " + carbs
+			//		+ AssemblyConstants.CARBS + "T: " + t);
+		}
 	}
 
 	public void bslChangeOnIDose(double insulin) {
 		if (insulin > 0)
-			bloodsugar = (int) (bloodsugar - 200 * Math.exp(-1.45 / insulin));
+			// System.out.println("IDose @ BGS.java - OldBSL: " + bloodsugar);
+			bloodsugar -= insulin * AssemblyConstants.ONE_IDOSE;
+		// System.out.println("IDose @ BGS.java - NewBSL: " + bloodsugar);
 	}
-	// bloodsugar = (int) (bloodsugar - 40 * (insulin));
+
+	public void bslChangeOnGDose(double glucagon) {
+		// System.out.println("GDose @ BGS.java - OldBSL: " + bloodsugar);
+		bloodsugar += glucagon * AssemblyConstants.ONE_GDOSE;
+		// System.out.println("GDose @ BGS.java - NewBSL: " + bloodsugar);
+	}
 
 	private int measureBloodGlucose() {
 		return bloodsugar;
@@ -42,15 +61,6 @@ public class BloodGlucoseSensor {
 			BGSensorInstance = new BloodGlucoseSensor();
 		}
 		return BGSensorInstance;
-
-	}
-
-	public void bslChangeOnGDose(double glucagon) {
-		bloodsugar += glucagon * 2;
-	}
-
-	public void bslChangeOnIdle() {
-		bloodsugar -= 2;
 
 	}
 

@@ -23,7 +23,8 @@ public class Mediator extends TimerTask {
 
 	public void run() {
 		i = i + 1;
-		System.out.println("current execution: " + i);
+		//System.out.println("current execution: " + i);
+		// for cyclic meal consumption... code here @ fixed iterations of i
 		HashMap<String, Number> accesorystatus = (HashMap<String, Number>) PrimeController.getInstance()
 				.computeDosage();
 		displayControllerInterface.setDisplayParameters(accesorystatus);
