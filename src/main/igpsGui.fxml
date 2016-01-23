@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="737.0" prefWidth="1010.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.IgpsGuiController">
    <children>
-      <SplitPane dividerPositions="0.75920245398773" layoutY="83.0" orientation="VERTICAL" prefHeight="654.0" prefWidth="1010.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="83.0">
+      <SplitPane dividerPositions="0.8941717791411042" layoutY="83.0" orientation="VERTICAL" prefHeight="654.0" prefWidth="1010.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="83.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="499.0" prefWidth="1008.0">
                <children>
@@ -19,7 +19,7 @@
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="650.0" prefWidth="928.0">
                            <children>
-                              <LineChart fx:id="linePlotBSL" layoutX="24.0" layoutY="179.0" prefHeight="345.0" prefWidth="645.0" title="Blood Sugar Levels at regular Time-Intervals" AnchorPane.bottomAnchor="-15.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="27.0">
+                              <LineChart fx:id="linePlotBSL" layoutX="13.0" layoutY="195.0" prefHeight="409.0" prefWidth="660.0" title="Blood Sugar Levels at regular Time-Intervals" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0">
                                 <xAxis>
                                   <CategoryAxis fx:id="linePlotBSLxAxis" prefHeight="46.0" prefWidth="544.0" />
                                 </xAxis>
@@ -74,7 +74,7 @@
                                     </ImageView>
                                     <TextField fx:id="textRangeBSL" prefHeight="37.0" prefWidth="166.0" text="Below Safe / Normal / High Blood Sugar">
                                        <font>
-                                          <Font name="System Italic" size="16.0" />
+                                          <Font name="System Bold" size="16.0" />
                                        </font>
                                        <effect>
                                           <Glow />
@@ -100,27 +100,30 @@
                            </children></AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="669.0" prefWidth="317.0">
                            <children>
-                              <SplitPane dividerPositions="0.6111111111111112" orientation="VERTICAL" prefHeight="496.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <SplitPane dividerPositions="0.6602787456445993" orientation="VERTICAL" prefHeight="496.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
-                                  <AnchorPane fx:id="apMsg" minHeight="0.0" minWidth="0.0" prefHeight="286.0" prefWidth="309.0">
+                                  <AnchorPane fx:id="apMsg" minHeight="0.0" minWidth="0.0" prefHeight="369.0" prefWidth="298.0">
                                        <children>
                                           <Label contentDisplay="CENTER" layoutX="101.0" prefHeight="31.0" prefWidth="97.0" text="Message Box" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="0.0">
                                              <font>
                                                 <Font name="System Bold" size="15.0" />
                                              </font>
                                           </Label>
-                                          <ListView fx:id="listMsgBox" layoutX="8.0" layoutY="28.0" prefHeight="253.0" prefWidth="282.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="28.0" />
+                                          <ListView fx:id="listMsgBox" layoutX="8.0" layoutY="28.0" prefHeight="336.0" prefWidth="282.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="28.0" />
                                        </children>
                                     </AnchorPane>
                                   <AnchorPane fx:id="apActivity" minHeight="0.0" minWidth="0.0" prefHeight="191.0" prefWidth="298.0">
                                        <children>
-                                          <MenuButton fx:id="menuBtn" layoutX="19.0" layoutY="9.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="251.0" text="Select Activity">
+                                          <MenuButton fx:id="menuBtn" layoutX="40.0" layoutY="12.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="218.0" text="Select Activity">
                                             <items>
                                               <MenuItem fx:id="menuItmWorkout" mnemonicParsing="false" onAction="#onWorkOut" text="Go for Workout" />
                                               <MenuItem fx:id="menuItmMeal" mnemonicParsing="false" onAction="#onMealSelected" text="Proceed for a meal" />
                                             </items>
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
                                           </MenuButton>
-                                          <Group fx:id="grpMeal" layoutX="3.0" layoutY="-92.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0">
+                                          <Group fx:id="grpMeal" layoutX="-3.0" layoutY="-80.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="20.19189453125">
                                              <children>
                                                 <CheckBox fx:id="chkBoxBread" layoutX="18.0" layoutY="180.0" mnemonicParsing="false" text="Bread (8)">
                                                    <font>
@@ -149,11 +152,11 @@
                                                 </CheckBox>
                                              </children>
                                           </Group>
-                                          <Button fx:id="btnConsume" layoutX="133.0" layoutY="145.0" mnemonicParsing="false" onAction="#ActionTakenMealOrWorkout" prefHeight="30.0" prefWidth="84.0" text="Consume" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="81.0">
+                                          <Button fx:id="btnConsume" layoutX="134.0" layoutY="157.0" mnemonicParsing="false" onAction="#ActionTakenMealOrWorkout" prefHeight="30.0" prefWidth="84.0" text="Consume" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="80.0">
                                              <font>
                                                 <Font size="14.0" />
                                              </font></Button>
-                                          <Button fx:id="btnCancel" layoutX="221.0" layoutY="145.0" mnemonicParsing="false" onAction="#cancelActivity" text="Cancel" AnchorPane.bottomAnchor="9.0" AnchorPane.rightAnchor="15.0">
+                                          <Button fx:id="btnCancel" layoutX="223.0" layoutY="157.0" mnemonicParsing="false" onAction="#cancelActivity" text="Cancel" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -168,7 +171,7 @@
                   </SplitPane>
                </children>
             </AnchorPane>
-          <AnchorPane fx:id="apPatientInfo" disable="true" minHeight="0.0" minWidth="0.0" opacity="0.85" prefHeight="183.0" prefWidth="1149.0">
+          <AnchorPane fx:id="apPatientInfo" disable="true" minHeight="0.0" minWidth="0.0" opacity="0.85" prefHeight="109.0" prefWidth="1008.0">
                <children>
                   <HBox fx:id="controlButtons" layoutX="769.0" layoutY="9.0" spacing="10.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="13.0">
                      <children>
@@ -207,7 +210,7 @@
          </font></Button>
       <TextField fx:id="txtTimer" layoutX="14.0" layoutY="21.0" prefHeight="39.0" prefWidth="115.0" text="Timer">
          <font>
-            <Font name="System Italic" size="18.0" />
+            <Font size="18.0" />
          </font></TextField>
       <Button fx:id="btnExit" layoutX="868.0" layoutY="10.0" mnemonicParsing="false" onAction="#exitSimulator" prefHeight="27.0" prefWidth="147.0" text="Exit Simulator" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="10.0">
          <font>
