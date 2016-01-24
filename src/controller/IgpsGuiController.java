@@ -15,11 +15,11 @@ import controller.Mediator.DisplayControllable;
 
 import declarations.AssemblyConstants;
 import declarations.BatteryManager;
+import declarations.BloodGlucoseSensor;
 import declarations.Clock;
 import declarations.Clock.LoadingSetTimeListener;
 import declarations.GlucagonBank;
 import declarations.InsulinBank;
-import declarations.InsulinGlucagon;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -388,16 +388,18 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	// for message Box - list items
 	private static ObservableList<Text> msgBoxItems = FXCollections.observableArrayList();
 
-	public static void addMessage(String message, Color col) {
+	private static void addMessage(String message, Color col) {
 		if (msgBoxItems.size() > 0) {
 			((Text) msgBoxItems.get(0)).setStroke(Color.GREY);
-			if (msgBoxItems.size() > 15)
-				msgBoxItems.remove(16);
 		}
 		Text msg = new Text(message);
 		msg.setStroke(col);
 		msg.setFont(new Font(15));
 		msgBoxItems.add(0, msg);
+		if (msgBoxItems.size() > 16) {
+			msgBoxItems.remove(16);
+		}
+
 	}
 
 	private void setTextofIndicator(ProgressIndicator pi) {
@@ -417,7 +419,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		});
 	}
 
-	public static void infoBox(String infoMessage, String titleBar, String headerMessage) {
+	private static void infoBox(String infoMessage, String titleBar, String headerMessage) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(titleBar);
 		alert.setHeaderText(headerMessage);
@@ -438,8 +440,17 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		}
 	}
 
+	private void checkForDose(double iDose, double gDose) {
+		if (iDose > 0) {
+			addMessage(String.format("Injected %s Dose of Insulin", iDose), Color.GREEN);
+		}
+		if (gDose > 0) {
+			addMessage(String.format("Injected %s Dose of Glucagon", gDose), Color.GREEN);
+		}
+	}
+
 	// Blood sugar monitoring
-	public void checkForBSLWarnings(boolean isMealTimerFinished, int glucoseLevel) {
+	private void checkForBSLWarnings(boolean isMealTimerFinished, int glucoseLevel) {
 		Color color = null;
 		String message = null;
 		if (glucoseLevel > AssemblyConstants.RANGE_ONE_MAX) {
@@ -483,15 +494,15 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		}
 	}
 
-	public static void setAlarm(boolean toPlay) {
+	private void setAlarm(boolean toPlay) {
 		if (toPlay) {// when true
 			if (!alert.isPlaying())
 				alert.play();
-			//else no action if already playing
+			// else no action if already playing
 		} else {// when false
 			if (alert.isPlaying())
 				alert.stop();
-			//else no action if already stopped
+			// else no action if already stopped
 		}
 	}
 
@@ -592,20 +603,23 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	 * declarations.Mediator.DisplayControllable# setDisplayParameters
 	 */
 	@Override
-	public void setDisplayParameters(final HashMap<String, Number> parameters) {
+	public void setDisplayParameters(final HashMap<String, Number> accesory) {
 		try {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					int currentBSL = (Integer) parameters.get("glucoselevel");
+					int currentBSL = (Integer) accesory.get("glucoselevel");
 					checkForBSLWarnings(false, currentBSL);
+					//System.out.println("bsl= " +currentBSL + "  i= " +accesory.get("iDose") + "  g= " +accesory.get("gDose"));
+					checkForDose((double) accesory.get("iDose"), (double) accesory.get("gDose"));
+					
 					seriesL.getData().add(new XYChart.Data(txtTimer.getText(), AssemblyConstants.RANGE_ONE_MIN));
 					series.getData().add(new XYChart.Data(txtTimer.getText(), currentBSL));
 					seriesU.getData().add(new XYChart.Data(txtTimer.getText(), AssemblyConstants.RANGE_ONE_MAX));
-
-					progressBattery.setProgress((Double) parameters.get("batterylevel"));
-					progressInsulinBank.setProgress((Double) parameters.get("insulinlevel"));
-					progressGlucagonBank.setProgress((Double) parameters.get("glucagonlevel"));
+					
+					progressBattery.setProgress((Double) accesory.get("batterylevel"));
+					progressInsulinBank.setProgress((Double) accesory.get("insulinlevel"));
+					progressGlucagonBank.setProgress((Double) accesory.get("glucagonlevel"));
 					if (progressGlucagonBank.getProgress() < AssemblyConstants.ALERT_LIMIT) {
 						setAlarm(true);
 						infoBox("Refill Glucagon Bank by pressing the '+' sign.", "", "!! Glucagon Alert !!");
@@ -619,9 +633,9 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 						infoBox("Recharge battery by pressing the '+' sign.", "", "!! Low Battery Alert !!");
 					}
 
-					txtNewBSL.setText(String.valueOf(parameters.get("glucoselevel")));
+					txtNewBSL.setText(String.valueOf(accesory.get("glucoselevel")));
 					txtPrevBSL.setText(String.valueOf(previousBSL));
-					previousBSL = (Integer) parameters.get("glucoselevel");
+					previousBSL = (Integer) accesory.get("glucoselevel");
 					if (i != 0 && i % 6 == 0) {
 						PrimeController.changeBGLOnIdle();
 					}

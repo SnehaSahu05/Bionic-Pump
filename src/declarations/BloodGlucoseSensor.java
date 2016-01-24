@@ -1,4 +1,4 @@
-package controller;
+package declarations;
 
 import declarations.AssemblyConstants;
 

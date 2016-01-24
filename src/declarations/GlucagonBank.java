@@ -1,8 +1,5 @@
 package declarations;
 
-import controller.IgpsGuiController;
-import javafx.scene.paint.Color;
-
 public class GlucagonBank {
 	private static GlucagonBank GBInstance = null;
 	private static Double currentGlvl = 0.0;
@@ -16,7 +13,8 @@ public class GlucagonBank {
 		synchronized (currentGlvl) {
 			currentGlvl -= calculatedGDose;
 			if (calculatedGDose > 0) {
-				IgpsGuiController.addMessage(String.format("Injected %s Dose of Glucagon", calculatedGDose), Color.GREEN);
+				// included in accesorystatus in ComputeDosage
+				//IgpsGuiController.addMessage(String.format("Injected %s Dose of Glucagon", calculatedGDose), Color.GREEN);
 			}
 		}
 		return currentGlvl / 100.0;

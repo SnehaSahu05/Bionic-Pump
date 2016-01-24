@@ -1,8 +1,5 @@
 package declarations;
 
-import controller.IgpsGuiController;
-import javafx.scene.paint.Color;
-
 public class InsulinBank {
 
 	private static InsulinBank IBInstance = null;
@@ -17,7 +14,8 @@ public class InsulinBank {
 		synchronized (currentIlvl) {
 			currentIlvl -= calculatedIDose;
 			if (calculatedIDose > 0) {
-				IgpsGuiController.addMessage(String.format("Injected %s Dose of Insulin", calculatedIDose),Color.GREEN);
+				// included in accesorystatus in ComputeDosage
+				//IgpsGuiController.addMessage(String.format("Injected %s Dose of Insulin", calculatedIDose),Color.GREEN);
 			}
 		}
 		return currentIlvl / 100.0;
