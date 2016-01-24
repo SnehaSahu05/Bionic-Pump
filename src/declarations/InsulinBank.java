@@ -17,7 +17,7 @@ public class InsulinBank {
 		synchronized (currentIlvl) {
 			currentIlvl -= calculatedIDose;
 			if (calculatedIDose > 0) {
-				IgpsGuiController.addMessage(String.format("%s Dose of Insulin injected.", calculatedIDose),Color.GREEN);
+				IgpsGuiController.addMessage(String.format("Injected %s Dose of Insulin", calculatedIDose),Color.GREEN);
 			}
 		}
 		return currentIlvl / 100.0;

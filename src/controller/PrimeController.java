@@ -7,7 +7,6 @@ import declarations.AssemblyConstants;
 import declarations.BatteryManager;
 import declarations.GlucagonBank;
 import declarations.InsulinGlucagon;
-import javafx.scene.paint.Color;
 import declarations.InsulinBank;
 
 public class PrimeController {

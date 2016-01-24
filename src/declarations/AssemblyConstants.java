@@ -2,6 +2,7 @@ package declarations;
 
 public class AssemblyConstants {
 
+	public static final int SIXTY= 60;
 	public static final int RANGE_ONE_MIN= 70;
 	public static final int EIGHTY = 80;
 	public static final int ONE_HUNDRED_TEN = 110;

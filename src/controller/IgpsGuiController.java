@@ -260,11 +260,11 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			btnConsume.setText("Consume");
 			carbs -= 10;
 			if (currentGlucoseLevel >= 86) {
-				addMessage("lost carbohydrates by 10 units", Color.GREEN);
+				addMessage("losing carbohydrates by 10 units", Color.GREEN);
 			} else if (currentGlucoseLevel >= 76) {
-				addMessage("lost carbohydrates by 10 units", Color.ORANGE);
+				addMessage("losing carbohydrates by 10 units", Color.ORANGE);
 			} else {
-				addMessage("lost carbohydrates by 10 units", Color.RED);
+				addMessage("losing carbohydrates by 10 units", Color.RED);
 			}
 		} else {/* when meal taken */
 			ObservableList<Node> children = grpMeal.getChildren();
@@ -276,10 +276,12 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 					}
 				}
 			}
-			if (currentGlucoseLevel < AssemblyConstants.ONE_HUNDRED_TEN) {
-				addMessage(String.format("Consumed %d units of carbohydrates", carbs), Color.ORANGE);
+			if (currentGlucoseLevel > AssemblyConstants.SIXTY) {
+				addMessage(String.format("gaining %d units of carbohydrates", carbs), Color.GREEN);
+			} else if (currentGlucoseLevel < AssemblyConstants.ONE_HUNDRED_TEN) {
+				addMessage(String.format("gaining %d units of carbohydrates", carbs), Color.ORANGE);
 			} else {
-				addMessage(String.format("Consumed %d units of carbohydrates", carbs), Color.RED);
+				addMessage(String.format("gaining %d units of carbohydrates", carbs), Color.RED);
 			}
 
 			if (isMealConsumed) {
@@ -389,6 +391,8 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	public static void addMessage(String message, Color col) {
 		if (msgBoxItems.size() > 0) {
 			((Text) msgBoxItems.get(0)).setStroke(Color.GREY);
+			if (msgBoxItems.size() > 15)
+				msgBoxItems.remove(16);
 		}
 		Text msg = new Text(message);
 		msg.setStroke(col);
@@ -440,7 +444,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		String message = null;
 		if (glucoseLevel > AssemblyConstants.RANGE_ONE_MAX) {
 			color = Color.RED;
-			message = "Blood glucose is high.";
+			message = "Blood glucose is high";
 			textRangeBSL.setText("HIGH SUGAR");
 			setAlarm(true);
 			// computeIDose
@@ -448,22 +452,22 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 				AssemblyConstants.RANGE_ONE_MAX)) {
 			// checks if between 110 and R1max=120
 			color = Color.ORANGE;
-			message = "Blood glucose in upper limit.";
+			message = "Blood glucose in upper limit";
 			textRangeBSL.setText("NORMAL");
 		} else if (isBSLInWarningLevel(glucoseLevel, AssemblyConstants.RANGE_ONE_MIN, AssemblyConstants.EIGHTY)) {
 			// checks if between R1min=70 and 80
 			color = Color.ORANGE;
-			message = "Blood glucose in lower limit.";
+			message = "Blood glucose in lower limit";
 			textRangeBSL.setText("NORMAL");
 		} else if (glucoseLevel < AssemblyConstants.RANGE_ONE_MIN) {
 			color = Color.RED;
-			message = "Blood glucose is low.";
+			message = "Blood glucose is low";
 			textRangeBSL.setText("BELOW SAFE");
 			setAlarm(true);
 			// computeGDose
 		} else {
 			color = Color.GREEN;
-			message = "Blood glucose is normal.";
+			message = "Blood glucose is normal";
 			textRangeBSL.setText("NORMAL");
 		}
 		if (!msgBoxItems.get(0).getText().equals(message)) {
@@ -480,16 +484,16 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	}
 
 	public static void setAlarm(boolean toPlay) {
-		if (toPlay) {
-			alert.play();
-			setAlarm(false);
-		} else {
-			alert.stop();
+		if (toPlay) {// when true
+			if (!alert.isPlaying())
+				alert.play();
+			//else no action if already playing
+		} else {// when false
+			if (alert.isPlaying())
+				alert.stop();
+			//else no action if already stopped
 		}
-		/*
-		 * if (toPlay) { if (!alert.isPlaying()) alert.play(); } else { if
-		 * (alert.isPlaying()) alert.stop(); }
-		 */ }
+	}
 
 	private void clearCheckBox() {
 		ObservableList<Node> children = grpMeal.getChildren();
@@ -622,13 +626,10 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 						PrimeController.changeBGLOnIdle();
 					}
 					i++;
-					if (i > 25) {
+					if (i > 22) {
 						seriesL.getData().remove(0);
 						series.getData().remove(0);
 						seriesU.getData().remove(0);
-					}
-					if (msgBoxItems.size() > 15) {
-						msgBoxItems.remove(16);
 					}
 				}
 			});

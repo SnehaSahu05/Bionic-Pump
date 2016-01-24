@@ -16,7 +16,7 @@ public class GlucagonBank {
 		synchronized (currentGlvl) {
 			currentGlvl -= calculatedGDose;
 			if (calculatedGDose > 0) {
-				IgpsGuiController.addMessage(String.format("%s Dose of Glucagon injected.", calculatedGDose), Color.GREEN);
+				IgpsGuiController.addMessage(String.format("Injected %s Dose of Glucagon", calculatedGDose), Color.GREEN);
 			}
 		}
 		return currentGlvl / 100.0;
