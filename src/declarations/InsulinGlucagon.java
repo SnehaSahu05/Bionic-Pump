@@ -11,7 +11,7 @@ public class InsulinGlucagon {
 		if (IgpsGuiController.isMealConsumed) {// give Bolus Dose
 			if (currentBSL >= AssemblyConstants.RANGE_ONE_MAX) {
 				calculatedinsulindose = Math.min(AssemblyConstants.MAX_IDOSE,
-						(currentBSL - AssemblyConstants.HUNDRED) / AssemblyConstants.ONE_IDOSE);
+						(currentBSL - AssemblyConstants.RANGE_ONE_MAX) / AssemblyConstants.ONE_IDOSE);
 			} else {
 				calculatedinsulindose = AssemblyConstants.ZERO;
 			}

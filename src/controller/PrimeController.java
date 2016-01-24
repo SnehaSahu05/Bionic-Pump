@@ -5,9 +5,9 @@ import java.util.Map;
 
 import declarations.AssemblyConstants;
 import declarations.BatteryManager;
+import declarations.BloodGlucoseSensor;
 import declarations.GlucagonBank;
 import declarations.InsulinGlucagon;
-import javafx.scene.paint.Color;
 import declarations.InsulinBank;
 
 public class PrimeController {
@@ -34,7 +34,9 @@ public class PrimeController {
 		// UI
 		accesorystatus.put("glucoselevel", bgLevel);
 		accesorystatus.put("insulinlevel", InsulinBank.getInstance().checkInsulinLevel(calculatedinsulindose));
+		accesorystatus.put("iDose", calculatedinsulindose);
 		accesorystatus.put("glucagonlevel", GlucagonBank.getInstance().checkGlucagonLevel(calculatedglucagondose));
+		accesorystatus.put("gDose", calculatedglucagondose);
 
 		if (AssemblyConstants.CARBS == 0 && AssemblyConstants.T == AssemblyConstants.Tmax) {// other
 																							// than
