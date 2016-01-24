@@ -522,8 +522,6 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	/* controller.IgpsGuiController.Initializable#initialize */
 	@Override
 	public void initialize(URL path, ResourceBundle resource) {
-
-		try {
 			// for txtTimer
 			timerClock = new Clock(this); // requires to implement
 											// LoadingSetTimeListener and calls
@@ -534,10 +532,11 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			seriesL.setName("Lower Limit for BSL ~ 70");
 			series.setName("current BSL plot");
 			seriesU.setName("Upper Limit for BSL ~ 120");
-			// set the series in LinePlot Graph to make it observable
+			// set the series in FXML LinePlot Graph to make it observable
 			linePlotBSL.getData().add(seriesL);
 			linePlotBSL.getData().add(series);
 			linePlotBSL.getData().add(seriesU);
+			linePlotBSLxAxis.setAutoRanging(true);
 
 			// this method sets values for Carbs: Maps carbsValue with meal
 			// Items
@@ -581,16 +580,12 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			grpMeal.setDisable(true);
 			btnConsume.setDisable(true);
 			btnCancel.setDisable(true);
-			linePlotBSLxAxis.setAutoRanging(true);
-
+			
 			// apPatientInfo.disableProperty();
 
 			// start simulator : sync between controller & Gui
 			startIGPSimulator();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 
 	/* declarations.clock.LoadingSetTimeListener#setTime(java.lang.String) */
@@ -604,14 +599,13 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 	 */
 	@Override
 	public void setDisplayParameters(final HashMap<String, Number> accesory) {
-		try {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
 					int currentBSL = (Integer) accesory.get("glucoselevel");
-					checkForBSLWarnings(false, currentBSL);
 					//System.out.println("bsl= " +currentBSL + "  i= " +accesory.get("iDose") + "  g= " +accesory.get("gDose"));
 					checkForDose((double) accesory.get("iDose"), (double) accesory.get("gDose"));
+					checkForBSLWarnings(false, currentBSL);
 					
 					seriesL.getData().add(new XYChart.Data(txtTimer.getText(), AssemblyConstants.RANGE_ONE_MIN));
 					series.getData().add(new XYChart.Data(txtTimer.getText(), currentBSL));
@@ -647,11 +641,6 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 					}
 				}
 			});
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 }
