@@ -20,7 +20,7 @@ public class AssemblyConstants {
 	public static final int HUNDRED_INTEGER = 100;
 	
 	public static final double ONE_IDOSE = 30;
-	public static final double MIN_IDOSE = 0.333;
+	public static final double MIN_IDOSE = 0.0333;
 	public static final double MAX_IDOSE = 2;
 
 	public static final double ONE_GDOSE = 3;

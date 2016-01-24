@@ -213,6 +213,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 					new KeyFrame(Duration.seconds(5), new KeyValue(progressGlucagonBank.progressProperty(), 1)));
 			task.playFromStart();
 			GlucagonBank.setGlucagonLevel(new Double(100));
+			setAlarm(false);
 		} catch (Exception ex) {
 		}
 	}
@@ -227,6 +228,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 					new KeyFrame(Duration.seconds(5), new KeyValue(progressInsulinBank.progressProperty(), 1)));
 			task.playFromStart();
 			InsulinBank.setInsulinLevel(new Double(100));
+			setAlarm(false);
 		} catch (Exception ex) {
 		}
 	}
@@ -341,6 +343,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 					new KeyFrame(Duration.seconds(5), new KeyValue(progressBattery.progressProperty(), 1)));
 			task.playFromStart();
 			BatteryManager.setNewBattery(new Double(100));
+			setAlarm(false);
 		} catch (Exception ex) {
 		}
 	}
@@ -419,7 +422,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 		});
 	}
 
-	private static void infoBox(String infoMessage, String titleBar, String headerMessage) {
+	private void infoBox(String infoMessage, String titleBar, String headerMessage) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(titleBar);
 		alert.setHeaderText(headerMessage);
@@ -465,11 +468,13 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			color = Color.ORANGE;
 			message = "Blood glucose in upper limit";
 			textRangeBSL.setText("NORMAL");
+			setAlarm(false);
 		} else if (isBSLInWarningLevel(glucoseLevel, AssemblyConstants.RANGE_ONE_MIN, AssemblyConstants.EIGHTY)) {
 			// checks if between R1min=70 and 80
 			color = Color.ORANGE;
 			message = "Blood glucose in lower limit";
 			textRangeBSL.setText("NORMAL");
+			setAlarm(false);
 		} else if (glucoseLevel < AssemblyConstants.RANGE_ONE_MIN) {
 			color = Color.RED;
 			message = "Blood glucose is low";
@@ -480,6 +485,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 			color = Color.GREEN;
 			message = "Blood glucose is normal";
 			textRangeBSL.setText("NORMAL");
+			setAlarm(false);
 		}
 		if (!msgBoxItems.get(0).getText().equals(message)) {
 			addMessage(message, color);
@@ -496,7 +502,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 
 	private void setAlarm(boolean toPlay) {
 		if (toPlay) {// when true
-			if (!alert.isPlaying())
+			// if (!alert.isPlaying())
 				alert.play();
 			// else no action if already playing
 		} else {// when false
@@ -504,6 +510,7 @@ public class IgpsGuiController implements Initializable, LoadingSetTimeListener,
 				alert.stop();
 			// else no action if already stopped
 		}
+		//System.out.println("Alarm status: " +alert.isPlaying());
 	}
 
 	private void clearCheckBox() {
