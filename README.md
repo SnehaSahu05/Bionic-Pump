@@ -19,6 +19,6 @@ Manual intervention in this prototype, involves only adding or subtracting some 
 based on which sugar level drops or rises.
 
 
-A detailed __report(\*.pdf)__ and __basic workflow(\*.jpg)__ of the pump is also attached as a part of this repository.
+A detailed __report(_\*.pdf_)__ and __basic workflow(_\*.jpg_)__ of the pump is also attached as a part of this repository.
 
-Also attached a **small video(\*.mp4)** of the running code.
+Also attached a **small video(_\*.mp4_)** of the running code.
