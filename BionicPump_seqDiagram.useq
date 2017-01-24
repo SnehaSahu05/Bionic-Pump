@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.1.9" icons="true" automaticImage="JPEG">  
+  <object id="1" language="java" name="main.IgpsGuiSimulator" project="BionicPump" 
+    file="/BionicPump/src/main/IgpsGuiSimulator.java" binary="false" label="igpsGuiSimulator" type="class" 
+    autoSize="true">    
+    <position height="-1" width="-1" x="251" y="0"/>    
+    <execution id="2">      
+      <position height="81" width="174" x="5" y="157"/>    
+    </execution>  
+  </object>  
+  <object id="5" language="java" name="controller.IgpsGuiController" project="BionicPump" 
+    file="/BionicPump/src/controller/IgpsGuiController.java" binary="false" label="&lt;static&gt;" type="class" 
+    autoSize="true">    
+    <position height="-1" width="-1" x="371" y="0"/>    
+    <execution id="4">      
+      <position height="27" width="177" x="183" y="184"/>    
+    </execution>    
+    <execution id="6">      
+      <position height="162" width="177" x="183" y="220"/>    
+    </execution>    
+    <execution id="9">      
+      <position height="162" width="177" x="183" y="354"/>    
+    </execution>    
+    <execution id="12">      
+      <position height="27" width="177" x="183" y="695"/>    
+    </execution>  
+  </object>  
+  <object id="13" language="java" name="controller.Mediator" project="BionicPump" 
+    file="/BionicPump/src/controller/Mediator.java" binary="false" label="mediator" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="708" y="0"/>    
+    <execution id="8">      
+      <position height="108" width="99" x="786" y="247"/>    
+    </execution>    
+    <execution id="11">      
+      <position height="108" width="99" x="786" y="381"/>    
+    </execution>    
+    <execution id="18">      
+      <position height="259" width="99" x="728" y="457"/>    
+    </execution>    
+    <execution id="21">      
+      <position height="81" width="99" x="728" y="668"/>    
+    </execution>  
+  </object>  
+  <object id="23" language="java" name="controller.PrimeController" project="BionicPump" 
+    file="/BionicPump/src/controller/PrimeController.java" binary="false" label="&lt;static&gt;" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="17">      
+      <position height="81" width="0" x="0" y="381"/>    
+    </execution>    
+    <execution id="25">      
+      <position height="27" width="0" x="0" y="408"/>    
+    </execution>    
+    <execution id="20">      
+      <position height="205" width="162" x="831" y="484"/>    
+    </execution>    
+    <execution id="31">      
+      <position height="27" width="7" x="909" y="534"/>    
+    </execution>    
+    <execution id="35">      
+      <position height="27" width="7" x="909" y="635"/>    
+    </execution>  
+  </object>  
+  <object id="36" language="java" name="declarations.BloodGlucoseSensor" project="BionicPump" 
+    file="/BionicPump/src/declarations/BloodGlucoseSensor.java" binary="false" label="&lt;static&gt;" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="27">      
+      <position height="81" width="208" x="1163" y="484"/>    
+    </execution>    
+    <execution id="38">      
+      <position height="27" width="0" x="0" y="511"/>    
+    </execution>  
+  </object>  
+  <object id="39" language="java" name="declarations.InsulinGlucagon" project="BionicPump" 
+    file="/BionicPump/src/declarations/InsulinGlucagon.java" binary="false" label="&lt;static&gt;" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="29">      
+      <position height="27" width="164" x="1658" y="484"/>    
+    </execution>    
+    <execution id="33">      
+      <position height="27" width="164" x="1658" y="578"/>    
+    </execution>  
+  </object>  
+  <object id="40" language="java" name="java.util.Timer" project="BionicPump" 
+    file="C:/Program Files/Java/jdk1.8.0_65/jre/lib/rt.jar" binary="true" label="timer" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="15">      
+      <position height="81" width="0" x="0" y="247"/>    
+    </execution>    
+    <execution id="42">      
+      <position height="27" width="0" x="0" y="274"/>    
+    </execution>  
+  </object>  
+  <message id="3" operation="initialize(java.net.URL,java.util.ResourceBundle):void" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="7" operation="startSimulator(java.util.Timer):void" asynchronous="false">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="8"/>  
+  </message>  
+  <message id="10" operation="run():void" asynchronous="false">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="11"/>  
+  </message>  
+  <message id="14" operation="scheduleAtFixedRate(java.util.TimerTask,long,long):void" asynchronous="false">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="15"/>  
+  </message>  
+  <message id="16" operation="getInstance():controller.PrimeController" asynchronous="false">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="17"/>  
+  </message>  
+  <message id="19" operation="computeDosage():java.util.Map&lt;String,Number&gt;" asynchronous="false">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="20"/>  
+  </message>  
+  <message id="22" operation="setDisplayParameters(java.util.HashMap&lt;java.lang.String,java.lang.Number&gt;):void" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="12"/>  
+  </message>  
+  <message id="24" operation="PrimeController()" asynchronous="false">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="25"/>  
+  </message>  
+  <message id="26" operation="getInstance():declarations.BloodGlucoseSensor" asynchronous="false">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="27"/>  
+  </message>  
+  <message id="28" operation="computeIDose(int):java.lang.Double" asynchronous="false">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="29"/>  
+  </message>  
+  <message id="30" operation="injectInsulin(double):void" asynchronous="false">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="31"/>  
+  </message>  
+  <message id="32" operation="computeGDose(int):java.lang.Double" asynchronous="false">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="33"/>  
+  </message>  
+  <message id="34" operation="injectGlucagon(double):void" asynchronous="false">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="35"/>  
+  </message>  
+  <message id="37" operation="BloodGlucoseSensor()" asynchronous="false">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="38"/>  
+  </message>  
+  <message id="41" operation="sched(java.util.TimerTask,long,long):void" asynchronous="false">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="42"/>  
+  </message>
+</sequence-diagram>

@@ -4,26 +4,26 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import controller.IgpsGuiController;
+import controller.PrimeController;
 
-public class DisplayToControllerMediator extends TimerTask {
+public class Mediator extends TimerTask {
 
 	public interface DisplayControllable {
 		void setDisplayParameters(HashMap<String, Number> parameters);
 	}
 
-	private static int delay = 1000;
+	private static int delay = 1000;	//to start gui update in 1 second
 	private static int period = 5000;
 	private int i = 0;
 	private DisplayControllable displayControllerInterface;
 		
-	public DisplayToControllerMediator(DisplayControllable controllable){
+	public Mediator(DisplayControllable controllable){
 		displayControllerInterface = controllable;
 	}
 
 	public void run() {
 		i = i + 1;
-		System.out.println("current execution: " + i);
+		//System.out.println("current execution: " + i);
 		HashMap<String, Number> accesorystatus = (HashMap<String, Number>) PrimeController.getInstance()
 				.computeDosage();
 		displayControllerInterface.setDisplayParameters(accesorystatus);

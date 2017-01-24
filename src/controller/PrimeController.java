@@ -1,26 +1,23 @@
 package controller;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import assembly.AssemblyConstants;
-import assembly.BloodGlucoseSensor;
-import assembly.InsulinReservoir;
-import selfDefinedClasses.InsulinGlucagon;
+import declarations.AssemblyConstants;
+import declarations.BatteryManager;
+import declarations.BloodGlucoseSensor;
+import declarations.GlucagonBank;
+import declarations.InsulinGlucagon;
+import declarations.InsulinBank;
 
-/**
- *
- * @author Sneha Sahu
- */
 public class PrimeController {
 
+	// static variables have uniform value throughout
 	private static PrimeController privatecontrollerinstance = null;;
-	private static Map<String, Number> accesorystatus = new HashMap<String, Number>();;
+	private static Map<String, Number> accesorystatus = new HashMap<String, Number>();
 	private static Double current_battery_level = 0.0;
 	private static Double calculatedinsulindose = 0.0;
-	private Dose dosage;
-	private static String currentbolus;
+	private static Double calculatedglucagondose = 0.0;
 
 	public PrimeController() {
 
@@ -28,30 +25,52 @@ public class PrimeController {
 			accesorystatus = new HashMap<String, Number>();
 		}
 		accesorystatus.clear();
-		dosage = new Dose();
 	}
 
 	public Map<String, Number> computeDosage() {
 		// step 1. Check blood glucose level
 		int bgLevel = BloodGlucoseSensor.getInstance().checkBloodGlucose();
+		// Put parameters in a map 'accesorystatus' which is to be displayed on
+		// UI
 		accesorystatus.put("glucoselevel", bgLevel);
+		accesorystatus.put("insulinlevel", InsulinBank.getInstance().checkInsulinLevel(calculatedinsulindose));
+		accesorystatus.put("iDose", calculatedinsulindose);
+		accesorystatus.put("glucagonlevel", GlucagonBank.getInstance().checkGlucagonLevel(calculatedglucagondose));
+		accesorystatus.put("gDose", calculatedglucagondose);
 
-		// Step 2. Compute dose based on blood glucose level
+		if (AssemblyConstants.CARBS == 0 && AssemblyConstants.T == AssemblyConstants.Tmax) {// other
+																							// than
+																							// meal
+																							// consumption
+			// Step 2. Compute dose based on blood glucose level
+			calculatedinsulindose = InsulinGlucagon.computeIDose(bgLevel);
+			// System.out.println("bgLevel :" + bgLevel +
+			// "calculatedinsulindose: " + calculatedinsulindose);
+			calculatedglucagondose = InsulinGlucagon.computeGDose(bgLevel);
+			// System.out.println("bgLevel :" + bgLevel +
+			// "calculatedglucagondose: " + calculatedglucagondose);
 
-		calculatedinsulindose = InsulinGlucagon.calculateInsulinBolus(bgLevel);
-
-		// Step 3. Inject Insulin and change the blood glucose level on this
-		// injection
-
-		if (calculatedinsulindose > 0.0)
-			BloodGlucoseSensor.getInstance().bglChangeOnInsulinDose(calculatedinsulindose);
-
-		// Put all the parameters in a map which is to be displayed on UI
+			// Step 3. Inject + change BSL
+			if (calculatedinsulindose > 0.0) {
+				// System.out.println("@PC.java - oldBSL:" +bgLevel + "I:"
+				// +calculatedinsulindose);
+				injectInsulin(calculatedinsulindose);
+			}
+			if (calculatedglucagondose > 0.0) {
+				// System.out.println("@PC.java - oldBSL:" +bgLevel + "G:"
+				// +calculatedglucagondose);
+				injectGlucagon(calculatedglucagondose);
+			}
+			// System.out.println("@PC.java - newBSL:" +bgLevel);
+		} else if (AssemblyConstants.T < AssemblyConstants.Tmax) {// when meal
+																	// consumed,
+																	// only
+																	// check
+																	// blood
+																	// sugar
+			BloodGlucoseSensor.getInstance().bslChangeOnActivity(AssemblyConstants.CARBS, AssemblyConstants.T);
+		}
 		current_battery_level = BatteryManager.getInstance().getBatteryLevel();
-
-		accesorystatus.put("insulinlevel", InsulinReservoir.getInstance().checkInsuliLevel(calculatedinsulindose));
-		// accesorystatus.put("glucoselevel",
-		// BloodGlucoseSensor.getInstance().checkBloodGlucose());
 		accesorystatus.put("batterylevel", current_battery_level);
 
 		return accesorystatus;
@@ -63,30 +82,17 @@ public class PrimeController {
 			privatecontrollerinstance = new PrimeController();
 		}
 		return privatecontrollerinstance;
-
 	}
 
-	public static String getCurrentbolus() {
-		return currentbolus;
-	}
-
-	public static void setCurrentbolus(String currentbolus) {
-		PrimeController.currentbolus = currentbolus;
-	}
-
-	public static void injectBolus(double insulin) {
-
-		BloodGlucoseSensor.getInstance().bloodGlucoseChangeOnBasalActivity(insulin);
-
+	public static void injectInsulin(double insulin) {
+		BloodGlucoseSensor.getInstance().bslChangeOnIDose(insulin);
 	}
 
 	public static void injectGlucagon(double glucagon) {
-		BloodGlucoseSensor.getInstance().chnageBGLOnGlucagonInjection(glucagon);
-
+		BloodGlucoseSensor.getInstance().bslChangeOnGDose(glucagon);
 	}
 
 	public static void changeBGLOnIdle() {
-		BloodGlucoseSensor.getInstance().changeBGLOnIdle();
-
+		BloodGlucoseSensor.getInstance().bslChangeOnIdle();
 	}
 }

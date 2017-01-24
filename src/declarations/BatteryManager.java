@@ -1,9 +1,11 @@
-package controller;
+package declarations;
+
+import declarations.AssemblyConstants;
 
 public class BatteryManager {
 	private static BatteryManager batterymanager;
 	private static Double batterylevel;
-	private Double MaxBatteryLevel = 100.0;
+	private Double MaxBatteryLevel = AssemblyConstants.HUNDRED;
 
 	public BatteryManager() {
 		batterylevel = MaxBatteryLevel;
@@ -18,7 +20,6 @@ public class BatteryManager {
 
 		if (batterymanager == null) {
 			batterymanager = new BatteryManager();
-
 		}
 		return batterymanager;
 	}
