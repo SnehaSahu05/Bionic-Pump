@@ -1,4 +1,4 @@
-*
+
 # Bionic-Pump
 simulation of basic workings of an Artificial Pancreas
 
@@ -21,4 +21,4 @@ based on which sugar level drops or rises.
 
 A detailed __report(_\*.pdf_)__ and __basic workflow(_\*.jpg_)__ of the pump is also attached as a part of this repository.
 
-Also attached a **small video(_\*.mp4_)** of the running code.
+A **small video(_\*.mp4_)** of the running model can be shared on request.
