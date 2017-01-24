@@ -1,3 +1,4 @@
+
 # Bionic-Pump
 simulation of basic workings of an Artificial Pancreas
 
@@ -13,4 +14,6 @@ by automatically calculating hormone dosage and injecting the same into patient.
 Based on the injected dose and some mathematical calculations, Blood Sugar is brought down to normal range.
 Manual intervention in this prototype, involves only adding or subtracting some fixed units of carbohydrates;
 based on which sugar level drops or rises.
+
 A detailed report(*.pdf) and basic workflow diagram(*.jpg) of the pump is also attached as a part of this repository.
+Also attached a small video(*.mp4) of the running code.
